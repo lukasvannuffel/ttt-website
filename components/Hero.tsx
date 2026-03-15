@@ -35,7 +35,7 @@ export function Hero() {
           <span className="hero-headline-underline">Top Tom</span>
         </h1>
         <p className="mb-12 max-w-[480px] text-lg leading-relaxed text-[var(--text-secondary)]">
-          Veilig en vakkundig boomwerk in Oost-Vlaanderen. Van vellen tot
+          Veilig en vakkundig boomwerk in Vlaams-Brabant. Van vellen tot
           snoeien, met passie voor elke boom.
         </p>
         <div className="flex gap-4">
@@ -61,7 +61,7 @@ export function Hero() {
         >
           <Image
             src="/img/hero.png"
-            alt="Professionele boomverzorger aan het werk in de boom in Oost-Vlaanderen"
+            alt="Professionele boomverzorger aan het werk in de boom in Vlaams-Brabant"
             fill
             className="object-cover object-center opacity-90"
             priority

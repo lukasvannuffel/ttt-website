@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 
+import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
 
 import "./globals.css";
@@ -20,7 +21,7 @@ const playfairDisplay = Playfair_Display({
 export const metadata: Metadata = {
   title: "Tree Top Tom - Professionele Boomverzorging",
   description:
-    "Professionele boomverzorging in Oost-Vlaanderen. Veilig, betrouwbaar en gecertificeerd.",
+    "Professionele boomverzorging in Vlaams-Brabant. Veilig, betrouwbaar en gecertificeerd.",
 };
 
 export default function RootLayout({
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
         <Navigation />
         {children}
+        <Footer />
       </body>
     </html>
   );
