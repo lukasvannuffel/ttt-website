@@ -19,11 +19,20 @@ const navigatieLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--border)] bg-[var(--bg-secondary)] px-8 pb-12 pt-20 md:px-12 lg:px-[120px]">
+    <footer className="border-t border-[var(--border)] bg-[var(--bg-secondary)] px-8 pb-10 pt-16 md:px-12 md:pb-12 md:pt-20 lg:px-[120px]">
       <div className="mb-16 grid grid-cols-1 gap-12 md:gap-12 lg:grid-cols-[2fr_1fr_1fr] lg:gap-20">
         <div>
-          <div className="font-serif text-3xl font-bold text-[var(--text-primary)]">
-            Tree Top Tom
+          <div className="flex justify-center">
+            <Link href="#home" aria-label="Tree Top Tom - Home" className="inline-flex items-center">
+              <img
+                src="/Logo.svg"
+                alt="Tree Top Tom logo"
+                width={110}
+                height={120}
+                className="h-16 w-auto md:h-20"
+                style={{ maxWidth: "220px" }}
+              />
+            </Link>
           </div>
           <p className="mt-6 max-w-[400px] leading-relaxed text-[var(--text-secondary)]">
             Professionele boomverzorging met passie voor vakwerk. Veilig,
@@ -31,7 +40,7 @@ export function Footer() {
           </p>
         </div>
 
-        <div>
+        {/* <div>
           <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--text-tertiary)]">
             Diensten
           </h4>
@@ -47,7 +56,7 @@ export function Footer() {
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
 
         <div>
           <h4 className="mb-6 text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--text-tertiary)]">
@@ -82,7 +91,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-[var(--border)] pt-8 text-center text-[13px] text-[var(--text-tertiary)]">
-        © 2026 Tree Top Tom Boomverzorging. Alle rechten voorbehouden.
+        © 2026 Tree Top Tom Boomverzorging. Alle rechten voorbehouden. | Website by <Link href="https://www.codelux.be" target="_blank" rel="noopener noreferrer" className="text-[var(--text-secondary)] no-underline transition-colors hover:text-[var(--accent-primary)]">Codelux</Link>
       </div>
     </footer>
   );

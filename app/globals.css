@@ -180,10 +180,18 @@ body {
 }
 
 .diagonal-divider {
-  height: 200px;
+  min-height: 120px;
+  height: 120px;
   background: var(--bg-primary);
   position: relative;
   overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .diagonal-divider {
+    min-height: 200px;
+    height: 200px;
+  }
 }
 
 .diagonal-divider::before {

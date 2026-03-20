@@ -6,4 +6,5 @@ export interface Dienst {
   href?: string;
   
   image?: string | null;
+  imagePosition?: "top" | "center" | "bottom";
 }

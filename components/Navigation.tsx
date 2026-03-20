@@ -3,9 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-
-const INSTAGRAM_URL = "https://instagram.com/treetoptom";
-const SCROLL_THRESHOLD = 100;
+import { INSTAGRAM_URL, SCROLL_THRESHOLD } from "@/constants/config";
 
 function InstagramIcon() {
   return (
@@ -21,6 +19,45 @@ function InstagramIcon() {
   );
 }
 
+function HamburgerIcon({ open }: { open: boolean }) {
+  if (open) {
+    return (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+    </svg>
+  );
+}
+
 const navLinks = [
   { href: "#home", label: "Home" },
   { href: "#diensten", label: "Diensten" },
@@ -30,6 +67,7 @@ const navLinks = [
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     function handleScroll() {
@@ -42,51 +80,111 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+
+    function handleEscape(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setIsMenuOpen(false);
+      }
+    }
+
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [isMenuOpen]);
+
+  function closeMenu() {
+    setIsMenuOpen(false);
+  }
+
   return (
-    <div
-      className={`fixed left-1/2 z-[1000] -translate-x-1/2 transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
-        isScrolled ? "top-4 scale-[0.95]" : "top-8"
-      }`}
-    >
-      <nav className="flex items-center gap-12 rounded-full border border-[var(--border)] bg-white/30 px-6 py-3 shadow-[0_8px_32px_rgba(31,31,31,0.06)] backdrop-blur-xl">
-        <Link
-          href="/"
-          className="flex items-center no-underline"
-          aria-label="Tree Top Tom - Home"
-        >
-          <Image
-            src="/Logo.svg"
-            alt=""
-            width={90}
-            height={100}
-            className="h-10 w-auto"
-            priority
-          />
-        </Link>
-        <ul className="flex list-none gap-8">
-          {navLinks.map(({ href, label }) => (
-            <li key={href}>
-              <Link
-                href={href}
-                className="nav-link text-sm font-medium text-[var(--text-secondary)] no-underline transition-colors duration-200 hover:text-[var(--accent-primary)]"
-              >
-                {label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="flex gap-3">
-          <a
-            href={INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--bg-primary)] text-[var(--text-primary)] transition-all duration-200 hover:scale-110 hover:bg-[var(--accent-primary)] hover:text-white"
-            aria-label="Instagram"
+    <>
+      <div
+        className={`fixed left-1/2 z-[1000] -translate-x-1/2 transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
+          isScrolled ? "top-4 scale-[0.95]" : "top-8"
+        }`}
+      >
+        <nav className="flex items-center gap-6 rounded-full border border-[var(--border)] bg-white/30 px-4 py-3 shadow-[0_8px_32px_rgba(31,31,31,0.06)] backdrop-blur-xl md:gap-12 md:px-6">
+          <Link
+            href="/"
+            className="flex items-center no-underline"
+            aria-label="Tree Top Tom - Home"
           >
-            <InstagramIcon />
-          </a>
+            <Image
+              src="/Logo.svg"
+              alt=""
+              width={90}
+              height={100}
+              className="h-9 w-auto md:h-10"
+              priority
+            />
+          </Link>
+
+          <ul className="hidden list-none gap-8 md:flex">
+            {navLinks.map(({ href, label }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className="nav-link text-sm font-medium text-[var(--text-secondary)] no-underline transition-colors duration-200 hover:text-[var(--accent-primary)]"
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-1 items-center justify-end gap-3 md:flex-none">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--bg-primary)] text-[var(--text-primary)] transition-all duration-200 hover:scale-110 hover:bg-[var(--accent-primary)] hover:text-white md:h-8 md:w-8"
+              aria-label="Instagram"
+            >
+              <InstagramIcon />
+            </a>
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen((open) => !open)}
+              className="flex h-9 w-9 min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-primary)] md:hidden"
+              aria-label={isMenuOpen ? "Menu sluiten" : "Menu openen"}
+              aria-expanded={isMenuOpen}
+            >
+              <HamburgerIcon open={isMenuOpen} />
+            </button>
+          </div>
+        </nav>
+      </div>
+
+      <div
+        className={`fixed inset-0 z-[999] bg-[var(--surface)]/50 backdrop-blur-xl transition-opacity duration-300 md:hidden ${
+          isMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
+        }`}
+        style={{ paddingTop: "calc(2rem + 52px)" }}
+        aria-hidden={!isMenuOpen}
+      >
+        <div className="flex flex-col gap-1 px-8 pt-8">
+          {navLinks.map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={closeMenu}
+              className="nav-link flex min-h-[44px] items-center border-b border-[var(--border)] py-3 text-lg font-medium text-[var(--text-secondary)] no-underline transition-colors duration-200 hover:text-[var(--accent-primary)]"
+            >
+              {label}
+            </Link>
+          ))}
         </div>
-      </nav>
-    </div>
+      </div>
+    </>
   );
 }
