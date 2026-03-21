@@ -179,7 +179,7 @@ export function Navigation() {
           >
             <Image
               src="/Logo.svg"
-              alt=""
+              alt="Tree Top Tom"
               width={90}
               height={100}
               className="h-8 w-auto md:h-10"

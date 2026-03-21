@@ -64,7 +64,7 @@ const ServiceCard = ({
         {dienst.image ? (
           <Image
             src={dienst.image}
-            alt=""
+            alt={dienst.title}
             fill
             className="object-cover object-center transition-transform duration-600 group-hover:scale-120 opacity-85 group-hover:opacity-100"
             sizes="(max-width: 768px) 100vw, 33vw"

@@ -101,7 +101,7 @@ export function InstagramFeed() {
             href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary glow-on-hover inline-flex items-center justify-center gap-2"
+            className="btn btn-secondary glow-on-hover inline-flex flex-nowrap items-center justify-center gap-2 whitespace-nowrap"
           >
             <InstagramIcon size={18} />
             <span>Volg me hier</span>
