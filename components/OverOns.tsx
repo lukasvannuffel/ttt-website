@@ -44,7 +44,7 @@ export function OverOns() {
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--accent-tertiary)] to-[var(--accent-secondary)] opacity-70" />
               <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--accent-primary)]">
-                Over ons
+                Over mij
               </p>
             </div>
             <h2 className="mb-10 font-serif text-3xl font-bold leading-tight text-[var(--text-primary)] md:text-4xl lg:text-5xl">

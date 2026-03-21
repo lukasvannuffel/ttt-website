@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { PARALLAX_FACTOR, MOBILE_BREAKPOINT_PX } from "@/constants/config";
 
 export function Hero() {
-  const [offsetY, setOffsetY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [isImageVisible, setIsImageVisible] = useState(false);
+  const [offsetY, setOffsetY] = useState(0);
   const rafRef = useRef<number | null>(null);
   const imageRef = useRef<HTMLDivElement>(null);
 
@@ -47,6 +47,7 @@ export function Hero() {
   }, [isMobile]);
 
   // Desktop parallax
+  // Scroll-triggered parallax for desktop
   useEffect(() => {
     if (isMobile) return;
 
@@ -68,6 +69,27 @@ export function Hero() {
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
       }
+    };
+  }, [isMobile]);
+
+  // Scroll-triggered reveal for mobile using Intersection Observer
+  useEffect(() => {
+    if (!isMobile || !imageRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsImageVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(imageRef.current);
+
+    return () => {
+      observer.disconnect();
     };
   }, [isMobile]);
 
@@ -110,12 +132,10 @@ export function Hero() {
       >
         <div
           ref={imageRef}
-          className="absolute inset-0 h-full w-full transition-transform duration-100 ease-out"
+          className="hero-image-parallax absolute inset-0 h-full w-full"
           style={{
             transform: isMobile
-              ? isImageVisible
-                ? "scale(1) opacity(1)"
-                : "scale(0.95) opacity(0)"
+              ? (isImageVisible ? "scale(1) opacity(1)" : "scale(0.95) opacity(0)")
               : `translateY(${offsetY}px)`,
             transition: isMobile
               ? "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
