@@ -96,7 +96,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative grid h-screen grid-cols-1 grid-rows-[1.8fr_auto] overflow-hidden lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1 lg:h-auto"
+      className="relative grid h-screen grid-cols-1 grid-rows-[2fr_auto] overflow-hidden lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1 lg:h-auto"
     >
       <div className="order-2 -mt-1 flex flex-col justify-center bg-gradient-to-b from-[var(--bg-primary)] via-[var(--bg-primary)] to-[rgba(160,210,180,0.08)] px-8 pb-20 pt-8 md:mt-0 md:px-16 md:pt-[140px] lg:order-1 lg:pt-[160px] lg:pl-[120px] lg:pr-20 relative overflow-hidden">
         {/* Organic background accent */}
@@ -151,12 +151,12 @@ export function Hero() {
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </div>
-        {/* Mobile: short, aggressive fade at bottom */}
+        {/* Mobile: thin, subtle fade at bottom */}
         <div
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 lg:hidden"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[8%] lg:hidden"
           style={{
             background:
-              "linear-gradient(to top, var(--bg-primary) 0%, var(--bg-primary) 35%, transparent 100%)",
+              "linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)",
           }}
           aria-hidden
         />
