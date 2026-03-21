@@ -4,7 +4,6 @@
     "title": "Vellen van Bomen",
     "description": "Het vellen van een boom is niet zomaar zagen en laten vallen. Dit wordt professioneel, veilig en gecontroleerd gedaan.",
     "tags": ["Gecontroleerd", "Veilig", "Professioneel"],
-    "href": "#contact",
     "image": "/img/VellenBomen.png"
   },
   {
@@ -12,7 +11,6 @@
     "title": "Snoeien",
     "description": "Snoeien is zo veel meer dan gewoon wat takken afzagen. Wij kijken naar wat de boom nodig heeft.",
     "tags": ["Vakkundig", "Natuurgericht"],
-    "href": "#contact",
     "image": "/img/Snoeien.png"
   },
   {
@@ -20,7 +18,6 @@
     "title": "Aanplanting",
     "description": "Voor elke boom die gaat staat er weer een andere paraat. We kijken naar ruimte en bodemgeschiktheid.",
     "tags": ["Bodeminspectie", "Nazorg"],
-    "href": "#contact",
     "image": "/img/Aanplanten.png"
   },
   {
@@ -28,7 +25,6 @@
     "title": "Boomadvies",
     "description": "Niet zeker? Neem contact op dan kom ik graag kijken voor het beste advies voor u en uw boom.",
     "tags": ["Gratis", "Vrijblijvend"],
-    "href": "#contact",
     "image": "/img/Boomadvies.png"
   },
   {
@@ -36,7 +32,6 @@
     "title": "Hakselen & Frezen",
     "description": "Complete opruiming met hakselaar voor takken en stobbenfrees voor het verwijderen van boomstronken.",
     "tags": ["Hakselaar", "Stobbenfrees"],
-    "href": "#contact",
     "image": "/img/HakselenFrezen.png"
   }
 ]

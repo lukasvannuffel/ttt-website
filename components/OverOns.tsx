@@ -31,7 +31,6 @@ export function OverOns() {
                 fill
                 className="object-cover object-[top_20%] transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 1024px) 90vw, 420px"
-                priority={false}
                 onError={() => setImageSrc("/img/Logo.svg")}
               />
               {/* Organic corner accents */}

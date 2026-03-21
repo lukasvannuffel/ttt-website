@@ -23,6 +23,17 @@ export const metadata: Metadata = {
   title: "Tree Top Tom - Professionele Boomverzorging",
   description:
     "Professionele boomverzorging in Vlaams-Brabant. Veilig, betrouwbaar en gecertificeerd.",
+  openGraph: {
+    title: "Tree Top Tom - Professionele Boomverzorging",
+    description:
+      "Professionele boomverzorging in Vlaams-Brabant. Veilig, betrouwbaar en gecertificeerd.",
+    locale: "nl_BE",
+    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export const viewport: Viewport = {

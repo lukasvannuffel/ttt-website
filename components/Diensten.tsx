@@ -1,13 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { Dienst } from "@/types/diensten";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
-import { MOBILE_BREAKPOINT_PX } from "@/constants/config";
 
 import dienstenData from "@/data/diensten.json";
 
@@ -111,21 +109,11 @@ const ServiceCard = ({
             ))}
           </div>
         </div>
-        {/* <a
-          href={dienst.href ?? "#"}
-          className="mt-auto inline-flex min-h-[44px] items-center gap-2 pt-4 text-sm font-semibold text-[var(--accent-primary)] no-underline transition-all hover:gap-3"
-        >
-          Meer informatie
-          <span aria-hidden className="transition-transform group-hover:translate-x-0.5">
-            →
-          </span>
-        </a> */}
       </div>
     </article>
   );
 };
 
-const MemoizedServiceCard = ({ ...props }: any) => <ServiceCard {...props} />;
 
 function Chevron({ direction }: { direction: "left" | "right" }) {
   const path = direction === "left" ? "M15 18l-6-6 6-6" : "M9 18l6-6-6-6";
@@ -295,7 +283,7 @@ export function Diensten() {
                     minWidth: `${cardWidthPercent}%`,
                   }}
                 >
-                  <MemoizedServiceCard
+                  <ServiceCard
                     dienst={dienst}
                     index={index}
                     isActive={

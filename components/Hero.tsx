@@ -3,27 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { PARALLAX_FACTOR, MOBILE_BREAKPOINT_PX } from "@/constants/config";
+import { PARALLAX_FACTOR } from "@/constants/config";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export function Hero() {
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
   const [isImageVisible, setIsImageVisible] = useState(false);
   const [offsetY, setOffsetY] = useState(0);
   const rafRef = useRef<number | null>(null);
   const imageRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT_PX);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-    };
-  }, []);
 
   // Scroll-triggered reveal for mobile using Intersection Observer
   useEffect(() => {
@@ -116,8 +104,9 @@ export function Hero() {
           className="hero-image-parallax absolute inset-0 h-full w-full"
           style={{
             transform: isMobile
-              ? (isImageVisible ? "scale(1) opacity(1)" : "scale(0.95) opacity(0)")
+              ? (isImageVisible ? "scale(1)" : "scale(0.95)")
               : `translateY(${offsetY}px)`,
+            opacity: isMobile ? (isImageVisible ? 1 : 0) : undefined,
             transition: isMobile
               ? "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
               : "transform 0.1s ease-out",

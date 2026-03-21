@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { INSTAGRAM_URL } from "@/constants/config";
@@ -63,13 +64,12 @@ export function Footer() {
         <div>
           <div className="flex justify-center lg:justify-start">
             <Link href="#home" aria-label="Tree Top Tom - Home" className="inline-flex items-center">
-              <img
+              <Image
                 src="/Logo.svg"
                 alt="Tree Top Tom logo"
                 width={110}
                 height={120}
                 className="h-16 w-auto md:h-20"
-                style={{ maxWidth: "220px" }}
               />
             </Link>
           </div>
@@ -128,14 +128,14 @@ export function Footer() {
         <p>© 2026 Tree Top Tom Boomverzorging. Alle rechten voorbehouden.</p>
         <p>
           Website by{" "}
-          <Link
+          <a
             href="https://www.codelux.be"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[var(--text-secondary)] no-underline transition-colors duration-200 hover:text-[var(--accent-gold)]"
           >
             Codelux
-          </Link>
+          </a>
         </p>
       </div>
     </footer>

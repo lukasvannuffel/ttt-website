@@ -3,14 +3,6 @@
 import { useState } from "react";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
-const SERVICES = [
-  { id: "vellen", label: "Vellen van bomen" },
-  { id: "snoeien", label: "Snoeien" },
-  { id: "aanplanting", label: "Aanplanting" },
-  { id: "advies", label: "Boom advies" },
-  { id: "hakselen", label: "Hakselen & Frezen" },
-];
-
 export function Contact() {
   const contactRef = useScrollReveal<HTMLElement>(0.2);
   const [formData, setFormData] = useState({

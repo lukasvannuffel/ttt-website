@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export function ScrollProgress() {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleScroll() {
@@ -11,10 +11,10 @@ export function ScrollProgress() {
         document.documentElement.scrollHeight -
         document.documentElement.clientHeight;
       const progress =
-        windowHeight > 0
-          ? (window.scrollY / windowHeight) * 100
-          : 0;
-      setScrollProgress(progress);
+        windowHeight > 0 ? (window.scrollY / windowHeight) * 100 : 0;
+      if (barRef.current) {
+        barRef.current.style.width = `${progress}%`;
+      }
     }
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -23,17 +23,15 @@ export function ScrollProgress() {
 
   return (
     <div
+      ref={barRef}
       className="scroll-progress"
       style={{
-        width: `${scrollProgress}%`,
         backgroundColor: "#14532d",
         height: "4px",
         opacity: 1,
       }}
       role="progressbar"
-      aria-valuenow={Math.round(scrollProgress)}
-      aria-valuemin={0}
-      aria-valuemax={100}
+      aria-label="Scrollvoortgang"
     />
   );
 }

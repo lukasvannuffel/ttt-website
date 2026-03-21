@@ -76,21 +76,28 @@ export async function POST(request: Request) {
     },
   });
 
-  await transporter.sendMail({
-    from: process.env.CONTACT_FROM_EMAIL ?? process.env.SMTP_USER,
-    to: process.env.CONTACT_TO_EMAIL,
-    replyTo: normalizedPayload.email,
-    subject: `Nieuw contactformulier: ${normalizedPayload.service}`,
-    text: [
-      `Naam: ${normalizedPayload.name}`,
-      `Email: ${normalizedPayload.email}`,
-      `Telefoon: ${normalizedPayload.phone || "-"}`,
-      `Type vraag: ${normalizedPayload.service}`,
-      "",
-      "Bericht:",
-      normalizedPayload.message,
-    ].join("\n"),
-  });
+  try {
+    await transporter.sendMail({
+      from: process.env.CONTACT_FROM_EMAIL ?? process.env.SMTP_USER,
+      to: process.env.CONTACT_TO_EMAIL,
+      replyTo: normalizedPayload.email,
+      subject: `Nieuw contactformulier: ${normalizedPayload.service}`,
+      text: [
+        `Naam: ${normalizedPayload.name}`,
+        `Email: ${normalizedPayload.email}`,
+        `Telefoon: ${normalizedPayload.phone || "-"}`,
+        `Type vraag: ${normalizedPayload.service}`,
+        "",
+        "Bericht:",
+        normalizedPayload.message,
+      ].join("\n"),
+    });
+  } catch {
+    return NextResponse.json(
+      { error: "Er ging iets mis bij het verzenden van de e-mail." },
+      { status: 500 },
+    );
+  }
 
   return NextResponse.json({ success: true }, { status: 200 });
 }
