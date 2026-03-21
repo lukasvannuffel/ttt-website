@@ -1,16 +1,11 @@
-import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Playfair_Display, Lora } from "next/font/google";
 
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
+import { ScrollProgress } from "@/components/ScrollProgress";
 
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-});
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
@@ -18,10 +13,21 @@ const playfairDisplay = Playfair_Display({
   weight: ["400", "600", "700", "900"],
 });
 
+const lora = Lora({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Tree Top Tom - Professionele Boomverzorging",
   description:
     "Professionele boomverzorging in Vlaams-Brabant. Veilig, betrouwbaar en gecertificeerd.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -32,8 +38,9 @@ export default function RootLayout({
   return (
     <html lang="nl">
       <body
-        className={`${inter.variable} ${playfairDisplay.variable} antialiased`}
+        className={`${playfairDisplay.variable} ${lora.variable} antialiased`}
       >
+        <ScrollProgress />
         <Navigation />
         {children}
         <Footer />

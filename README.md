@@ -16,6 +16,17 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Contact Form (Gmail SMTP)
+
+To send real emails from the contact form:
+
+1. Enable 2-Step Verification on your Gmail account.
+2. Create a Gmail App Password.
+3. Copy `.env.example` to `.env.local`.
+4. Fill in the SMTP values in `.env.local`.
+
+The form posts to `POST /api/contact` and sends emails using Nodemailer.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

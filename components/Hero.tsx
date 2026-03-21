@@ -3,13 +3,53 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { PARALLAX_FACTOR } from "@/constants/config";
+import { PARALLAX_FACTOR, MOBILE_BREAKPOINT_PX } from "@/constants/config";
 
 export function Hero() {
   const [offsetY, setOffsetY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isImageVisible, setIsImageVisible] = useState(false);
   const rafRef = useRef<number | null>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT_PX);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+    };
+  }, []);
+
+  // Scroll-triggered reveal for mobile using Intersection Observer
+  useEffect(() => {
+    if (!isMobile || !imageRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsImageVisible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(imageRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isMobile]);
+
+  // Desktop parallax
+  useEffect(() => {
+    if (isMobile) return;
+
     function handleScroll() {
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
@@ -29,45 +69,57 @@ export function Hero() {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <section
       id="home"
       className="relative grid h-screen grid-cols-1 grid-rows-[1fr_auto] overflow-hidden lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1 lg:h-auto"
     >
-      <div className="order-2 -mt-1 flex flex-col justify-center bg-[var(--bg-primary)] px-8 pb-20 pt-8 md:mt-0 md:px-16 md:pt-[160px] lg:order-1 lg:pt-[180px] lg:pl-[120px] lg:pr-20">
-        <div className="hero-label mb-8">
-          Boomverzorging
-        </div>
-        <h1 className="mb-8 font-serif text-5xl font-black leading-[0.95] tracking-tight text-[var(--text-primary)] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[96px]">
-          Tree
-          <br />
-          <span className="hero-headline-underline">Top Tom</span>
-        </h1>
-        <p className="mb-12 max-w-[480px] text-lg leading-relaxed text-[var(--text-secondary)]">
-          Veilig en vakkundig boomwerk in Vlaams-Brabant. Van vellen tot
-          snoeien, met passie voor elke boom.
-        </p>
-        <div className="flex gap-4">
-          <Link href="#diensten" className="btn btn-primary">
-            Diensten
-          </Link>
-          <Link href="#contact" className="btn btn-secondary">
-            Contact me
-          </Link>
+      <div className="order-2 -mt-1 flex flex-col justify-center bg-gradient-to-b from-[var(--bg-primary)] via-[var(--bg-primary)] to-[rgba(160,210,180,0.08)] px-8 pb-20 pt-8 md:mt-0 md:px-16 md:pt-[140px] lg:order-1 lg:pt-[160px] lg:pl-[120px] lg:pr-20 relative overflow-hidden">
+        {/* Organic background accent */}
+        <div className="absolute -right-40 top-0 w-96 h-96 rounded-full bg-gradient-to-br from-[var(--accent-tertiary)] to-transparent opacity-5 blur-3xl pointer-events-none" />
+
+        <div className="relative z-10">
+          <div className="hero-label mb-6">
+            Boomverzorging
+          </div>
+          <h1 className="hero-headline mb-8 font-serif text-5xl font-black leading-[0.9] tracking-tight text-[var(--text-primary)] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[100px]">
+            Tree
+            <br />
+            <span className="hero-headline-underline">Top Tom</span>
+          </h1>
+          <p className="hero-cta mb-12 max-w-[500px] text-base leading-relaxed text-[var(--text-secondary)] font-light">
+            Professionele boomverzorging in Vlaams-Brabant. Veilig, vakkundig en duurzaam werk met passie voor elke boom.
+          </p>
+          <div className="hero-cta flex gap-4">
+            <Link href="#diensten" className="btn btn-primary glow-on-hover">
+              Diensten
+            </Link>
+            <Link href="#contact" className="btn btn-secondary glow-on-hover">
+              Contact me
+            </Link>
+          </div>
         </div>
       </div>
       <div
-        className="order-1 relative min-h-0 w-full overflow-hidden lg:order-2 lg:h-full"
+        className="hero-image-container order-1 relative min-h-0 w-full overflow-hidden lg:order-2 lg:h-full"
         style={{
-          clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0 100%)",
+          clipPath: isMobile ? "none" : "polygon(15% 0, 100% 0, 100% 100%, 0 100%)",
         }}
       >
         <div
-          className="absolute inset-0 min-h-full min-w-full transition-transform duration-100 ease-out"
+          ref={imageRef}
+          className="absolute inset-0 h-full w-full transition-transform duration-100 ease-out"
           style={{
-            transform: `translateY(${offsetY}px)`,
+            transform: isMobile
+              ? isImageVisible
+                ? "scale(1) opacity(1)"
+                : "scale(0.95) opacity(0)"
+              : `translateY(${offsetY}px)`,
+            transition: isMobile
+              ? "transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1)"
+              : "transform 0.1s ease-out",
           }}
         >
           <Image
@@ -91,16 +143,6 @@ export function Hero() {
         {/* Solid 2px band at bottom to eliminate subpixel line (mobile) */}
         <div
           className="pointer-events-none absolute inset-x-0 bottom-0 h-0.5 bg-[var(--bg-primary)] lg:hidden"
-          aria-hidden
-        />
-        {/* Desktop: very narrow soft edge along diagonal – only softens the cut, does not cover the photo */}
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 hidden w-[10%] lg:block"
-          style={{
-            background:
-              "linear-gradient(98deg, var(--bg-primary) 0%, var(--bg-primary) 75%, transparent 100%)",
-            clipPath: "polygon(15% 0, 100% 0, 100% 100%, 0 100%)",
-          }}
           aria-hidden
         />
       </div>

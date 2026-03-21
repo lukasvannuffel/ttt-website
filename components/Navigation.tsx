@@ -20,25 +20,6 @@ function InstagramIcon() {
 }
 
 function HamburgerIcon({ open }: { open: boolean }) {
-  if (open) {
-    return (
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden
-      >
-        <line x1="18" y1="6" x2="6" y2="18" />
-        <line x1="6" y1="6" x2="18" y2="18" />
-      </svg>
-    );
-  }
-
   return (
     <svg
       width="24"
@@ -51,9 +32,40 @@ function HamburgerIcon({ open }: { open: boolean }) {
       strokeLinejoin="round"
       aria-hidden
     >
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="18" x2="21" y2="18" />
+      <line
+        x1="3"
+        y1="6"
+        x2="21"
+        y2="6"
+        style={{
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          transformOrigin: "12px 12px",
+          transform: open ? "translateY(6px) rotate(45deg)" : "translateY(0) rotate(0deg)",
+          opacity: 1,
+        }}
+      />
+      <line
+        x1="3"
+        y1="12"
+        x2="21"
+        y2="12"
+        style={{
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          opacity: open ? 0 : 1,
+        }}
+      />
+      <line
+        x1="3"
+        y1="18"
+        x2="21"
+        y2="18"
+        style={{
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          transformOrigin: "12px 12px",
+          transform: open ? "translateY(-6px) rotate(-45deg)" : "translateY(0) rotate(0deg)",
+          opacity: 1,
+        }}
+      />
     </svg>
   );
 }
@@ -64,6 +76,13 @@ const navLinks = [
   { href: "#over", label: "Over" },
   { href: "#contact", label: "Contact" },
 ] as const;
+
+const menuItems = [
+  { href: "#home", label: "Home", icon: "home" as const },
+  { href: "#diensten", label: "Diensten", icon: "services" as const },
+  { href: "#over", label: "Over ons", icon: "about" as const },
+  { href: "#contact", label: "Contact", icon: "contact" as const },
+];
 
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -110,13 +129,13 @@ export function Navigation() {
     <>
       <div
         className={`fixed left-1/2 z-[1000] -translate-x-1/2 transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
-          isScrolled ? "top-4 scale-[0.95]" : "top-8"
+          isScrolled ? "top-3 md:top-4" : "top-6 md:top-8"
         }`}
       >
-        <nav className="flex items-center gap-6 rounded-full border border-[var(--border)] bg-white/30 px-4 py-3 shadow-[0_8px_32px_rgba(31,31,31,0.06)] backdrop-blur-xl md:gap-12 md:px-6">
+        <nav className="flex items-center justify-between gap-4 md:gap-12 rounded-2xl md:rounded-xl border border-[var(--border)]/40 bg-white/40 px-4 py-3 md:px-6 md:py-3.5 shadow-lg shadow-[var(--accent-primary)]/5 backdrop-blur-2xl transition-all duration-300 md:bg-white/35 md:shadow-[0_8px_32px_rgba(45,80,68,0.08)]">
           <Link
             href="/"
-            className="flex items-center no-underline"
+            className="flex items-center no-underline flex-shrink-0"
             aria-label="Tree Top Tom - Home"
           >
             <Image
@@ -124,17 +143,17 @@ export function Navigation() {
               alt=""
               width={90}
               height={100}
-              className="h-9 w-auto md:h-10"
+              className="h-8 w-auto md:h-10 transition-all duration-300"
               priority
             />
           </Link>
 
-          <ul className="hidden list-none gap-8 md:flex">
+          <ul className="hidden md:flex list-none gap-10 flex-1">
             {navLinks.map(({ href, label }) => (
               <li key={href}>
                 <Link
                   href={href}
-                  className="nav-link text-sm font-medium text-[var(--text-secondary)] no-underline transition-colors duration-200 hover:text-[var(--accent-primary)]"
+                  className="nav-link text-sm font-medium text-[var(--text-secondary)] no-underline transition-all duration-200 hover:text-[var(--accent-primary)] relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[var(--accent-primary)] after:transition-all after:duration-300 hover:after:w-full"
                 >
                   {label}
                 </Link>
@@ -142,26 +161,15 @@ export function Navigation() {
             ))}
           </ul>
 
-          <div className="flex flex-1 items-center justify-end gap-3 md:flex-none">
-            <a
-              href={INSTAGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--bg-primary)] text-[var(--text-primary)] transition-all duration-200 hover:scale-110 hover:bg-[var(--accent-primary)] hover:text-white md:h-8 md:w-8"
-              aria-label="Instagram"
-            >
-              <InstagramIcon />
-            </a>
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen((open) => !open)}
-              className="flex h-9 w-9 min-h-[44px] min-w-[44px] items-center justify-center rounded-full text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-primary)] md:hidden"
-              aria-label={isMenuOpen ? "Menu sluiten" : "Menu openen"}
-              aria-expanded={isMenuOpen}
-            >
-              <HamburgerIcon open={isMenuOpen} />
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen((open) => !open)}
+            className="md:hidden flex h-10 w-10 items-center justify-center rounded-full text-[var(--text-primary)] transition-all duration-300 hover:bg-[var(--bg-primary)] hover:text-[var(--accent-primary)]"
+            aria-label={isMenuOpen ? "Menu sluiten" : "Menu openen"}
+            aria-expanded={isMenuOpen}
+          >
+            <HamburgerIcon open={isMenuOpen} />
+          </button>
         </nav>
       </div>
 
@@ -169,22 +177,64 @@ export function Navigation() {
         className={`fixed inset-0 z-[999] bg-[var(--surface)]/50 backdrop-blur-xl transition-opacity duration-300 md:hidden ${
           isMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
-        style={{ paddingTop: "calc(2rem + 52px)" }}
         aria-hidden={!isMenuOpen}
       >
-        <div className="flex flex-col gap-1 px-8 pt-8">
-          {navLinks.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              onClick={closeMenu}
-              className="nav-link flex min-h-[44px] items-center border-b border-[var(--border)] py-3 text-lg font-medium text-[var(--text-secondary)] no-underline transition-colors duration-200 hover:text-[var(--accent-primary)]"
+        <div className="flex flex-col h-full pt-32 px-8 pb-8">
+          <nav className="flex flex-col gap-8">
+            {menuItems.map((item, idx) => (
+              <Link
+                key={idx}
+                href={item.href}
+                onClick={closeMenu}
+                className="nav-link text-2xl font-light tracking-wide text-[var(--text-primary)] no-underline transition-colors duration-300 hover:text-[var(--accent-primary)]"
+                style={{
+                  animation: isMenuOpen
+                    ? `fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${0.1 + idx * 0.08}s both`
+                    : "none",
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            <div
+              className="h-px bg-[var(--border)]/40 my-4"
+              style={{
+                animation: isMenuOpen
+                  ? `fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both`
+                  : "none",
+              }}
+            />
+
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-link text-lg font-light tracking-wide text-[var(--text-secondary)] no-underline transition-colors duration-300 hover:text-[var(--accent-primary)]"
+              style={{
+                animation: isMenuOpen
+                  ? `fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both`
+                  : "none",
+              }}
             >
-              {label}
-            </Link>
-          ))}
+              Instagram
+            </a>
+          </nav>
         </div>
       </div>
+
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </>
   );
 }

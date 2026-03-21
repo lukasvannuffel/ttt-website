@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --text-primary: #1f1f1f;
-  --text-secondary: #5e5e5e;
-  --text-tertiary: #9c9c9c;
-  --bg-primary: #f5f3f0;
-  --bg-secondary: #e8e5e1;
-  --border: #d5d1cc;
-  --accent-primary: #6b7560;
-  --accent-secondary: #a8b29e;
-  --accent-tertiary: #c9c4bd;
+  --text-primary: #0f1419;
+  --text-secondary: #4a5568;
+  --text-tertiary: #8b9199;
+  --bg-primary: #faf8f6;
+  --bg-secondary: #f0ebe4;
+  --border: #d9cfc5;
+  --accent-primary: #1b4332;
+  --accent-secondary: #2d6a4f;
+  --accent-tertiary: #52b788;
+  --accent-gold: #a67c52;
+  --accent-warm: #d4a574;
   --surface: #ffffff;
 }
 
@@ -23,31 +25,44 @@
   --color-accent-primary: var(--accent-primary);
   --color-accent-secondary: var(--accent-secondary);
   --color-accent-tertiary: var(--accent-tertiary);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-warm: var(--accent-warm);
   --color-surface: var(--surface);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-body);
   --font-serif: var(--font-playfair);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--bg-primary);
   color: var(--text-primary);
-  font-family: var(--font-inter), ui-sans-serif, sans-serif;
+  font-family: var(--font-body), serif;
+  letter-spacing: 0.3px;
+  width: 100%;
+  max-width: 100%;
   overflow-x: hidden;
+  margin: 0;
 }
 
 .nav-link {
   position: relative;
+  font-weight: 500;
 }
 
 .nav-link::after {
   content: "";
   position: absolute;
-  bottom: -4px;
+  bottom: -6px;
   left: 0;
   width: 0;
-  height: 2px;
-  background: var(--accent-primary);
-  transition: width 0.3s;
+  height: 1.5px;
+  background: var(--accent-gold);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-link:hover::after {
@@ -72,24 +87,347 @@ body {
   will-change: transform;
 }
 
+/* Premium scroll and loading animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reveal animations on scroll */
+.reveal {
+  animation: fade-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.reveal-left {
+  animation: fade-in-left 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.reveal-right {
+  animation: fade-in-right 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.reveal-scale {
+  animation: scale-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+/* Staggered animation delays */
+.reveal-stagger-1 { animation-delay: 0.15s; }
+.reveal-stagger-2 { animation-delay: 0.3s; }
+.reveal-stagger-3 { animation-delay: 0.45s; }
+.reveal-stagger-4 { animation-delay: 0.6s; }
+.reveal-stagger-5 { animation-delay: 0.75s; }
+
+/* Ensure animation applies on reveal */
+.reveal-stagger-1,
+.reveal-stagger-2,
+.reveal-stagger-3,
+.reveal-stagger-4,
+.reveal-stagger-5 {
+  animation-fill-mode: forwards;
+}
+
+/* Page load animations */
+.hero-headline {
+  animation: fade-in-up 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-label {
+  animation: slide-down 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+}
+
+.hero-cta {
+  animation: fade-in-up 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.hero-image-container {
+  animation: fade-in-right 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+@supports not (overflow: clip) {
+  html {
+    overflow-x: hidden;
+  }
+}
+
+main,
+section,
+footer {
+  width: 100%;
+  max-width: 100vw;
+}
+
+/* Loading pulse animation */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Glow effect on hover for premium feel */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(45, 110, 95, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(45, 110, 95, 0.2);
+  }
+}
+
+.glow-on-hover {
+  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glow-on-hover:hover {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Scroll progress indicator */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+  width: 0%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* Smooth scrollbar styles for modern browsers */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 5px;
+  border: 2px solid var(--bg-primary);
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--accent-secondary), var(--accent-tertiary));
+}
+
+/* Premium link and button transitions */
+a, button {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Smooth text selection */
+::selection {
+  background: var(--accent-secondary) !important;
+  color: var(--bg-secondary) !important;
+}
+
+::-moz-selection {
+  background: var(--accent-secondary) !important;
+  color: var(--bg-secondary) !important;
+}
+
+/* Premium skeleton loading animations */
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes skeleton-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.skeleton {
+  animation: skeleton-shimmer 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    rgba(212, 184, 150, 0.4) 20%,
+    var(--bg-secondary) 40%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 1000px 100%;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+}
+
+.skeleton-pulse {
+  animation: skeleton-pulse 2s ease-in-out infinite;
+}
+
+/* Skeleton variants */
+.skeleton-text {
+  height: 14px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    rgba(184, 149, 106, 0.3) 25%,
+    var(--bg-secondary) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 800px 100%;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  animation: skeleton-shimmer 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skeleton-text-sm {
+  height: 12px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    rgba(184, 149, 106, 0.25) 25%,
+    var(--bg-secondary) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 800px 100%;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  animation: skeleton-shimmer 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skeleton-text-lg {
+  height: 28px;
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    rgba(212, 184, 150, 0.35) 25%,
+    var(--bg-secondary) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 800px 100%;
+  background-repeat: no-repeat;
+  border-radius: 6px;
+  animation: skeleton-shimmer 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+  animation: skeleton-shimmer 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(
+    90deg,
+    var(--bg-secondary) 0%,
+    rgba(184, 149, 106, 0.4) 25%,
+    var(--bg-secondary) 50%,
+    var(--bg-secondary) 100%
+  );
+  background-size: 1000px 100%;
+  background-repeat: no-repeat;
+}
+
+/* Premium focus states */
+*:focus-visible {
+  outline: 2px solid var(--accent-tertiary);
+  outline-offset: 2px;
+}
+
 /* Hero */
 .hero-label {
   display: flex;
   align-items: center;
   gap: 1rem;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
+  font-weight: 700;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--text-tertiary);
+  color: var(--accent-primary);
 }
 
 .hero-label::before {
   content: "";
   display: block;
-  width: 3rem;
-  height: 1px;
-  background: var(--accent-primary);
+  width: 2.5rem;
+  height: 1.5px;
+  background: var(--accent-gold);
 }
 
 .hero-headline-underline {
@@ -100,33 +438,35 @@ body {
 .hero-headline-underline::after {
   content: "";
   position: absolute;
-  bottom: 8px;
+  bottom: 6px;
   left: 0;
   right: 0;
-  height: 12px;
-  background: var(--accent-secondary);
-  opacity: 0.3;
+  height: 10px;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold));
+  opacity: 0.15;
   z-index: -1;
 }
 
 .btn {
-  padding: 18px 40px;
-  font-size: 14px;
+  padding: 16px 36px;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
   text-decoration: none;
   display: inline-block;
   border: none;
-  border-radius: 0;
+  border-radius: 2px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  text-transform: uppercase;
 }
 
 .btn-primary {
-  background: var(--accent-primary);
+  background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
   color: white;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 6px 20px rgba(27, 67, 50, 0.2);
 }
 
 .btn-primary::before {
@@ -142,7 +482,7 @@ body {
     rgba(255, 255, 255, 0.2),
     transparent
   );
-  transition: left 0.5s;
+  transition: left 0.6s;
 }
 
 .btn-primary:hover::before {
@@ -150,21 +490,37 @@ body {
 }
 
 .btn-primary:hover {
-  background: var(--text-primary);
+  background: linear-gradient(135deg, var(--accent-secondary) 0%, var(--accent-tertiary) 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(107, 117, 96, 0.3);
+  box-shadow: 0 10px 32px rgba(27, 67, 50, 0.3);
 }
 
 .btn-secondary {
   background: transparent;
   color: var(--accent-primary);
-  border: 2px solid var(--accent-primary);
+  border: 1.5px solid var(--accent-primary);
+  box-shadow: 0 2px 8px rgba(27, 67, 50, 0.06);
+  position: relative;
+}
+
+.btn-secondary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent-primary);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
 }
 
 .btn-secondary:hover {
-  background: var(--accent-primary);
   color: white;
   transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(27, 67, 50, 0.15);
+}
+
+.btn-secondary:hover::after {
+  opacity: 1;
 }
 
 .circle-accent::before {
@@ -173,15 +529,16 @@ body {
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--accent-gold);
+  opacity: 0.2;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .diagonal-divider {
-  min-height: 120px;
-  height: 120px;
+  min-height: 100px;
+  height: 100px;
   background: var(--bg-primary);
   position: relative;
   overflow: hidden;
@@ -189,8 +546,8 @@ body {
 
 @media (min-width: 768px) {
   .diagonal-divider {
-    min-height: 200px;
-    height: 200px;
+    min-height: 160px;
+    height: 160px;
   }
 }
 
@@ -201,8 +558,152 @@ body {
   left: 0;
   right: 0;
   height: 100%;
-  background: var(--bg-secondary);
-  transform: skewY(-3deg);
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-secondary) 85%, transparent 100%);
+  transform: skewY(-2.5deg);
   transform-origin: top left;
+}
+
+/* Organic leaf accent elements */
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.leaf-accent {
+  animation: float-gentle 6s ease-in-out infinite;
+}
+
+/* Botanical divider with organic curves */
+.botanical-divider {
+  position: relative;
+  height: 80px;
+  overflow: hidden;
+}
+
+.botanical-divider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 100' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,50 Q300,20 600,50 T1200,50 L1200,100 L0,100 Z' fill='%23f0ebe4' opacity='0.6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Premium section transition overlays */
+.section-fade-overlay {
+  position: relative;
+}
+
+.section-fade-overlay::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(245, 240, 232, 0.3) 60%,
+    rgba(245, 240, 232, 0.8) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Premium section transition overlays */
+.section-fade-overlay {
+  position: relative;
+}
+
+.section-fade-overlay::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 160px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(245, 240, 232, 0.3) 60%,
+    rgba(245, 240, 232, 0.8) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Charcoal to cream transition (Hero to Diensten) */
+.hero-fade {
+  position: relative;
+}
+
+.hero-fade::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(212, 184, 150, 0.15) 40%,
+    rgba(245, 240, 232, 0.5) 80%,
+    rgba(245, 240, 232, 0.95) 100%
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Cream to cream smooth fade (Diensten to OverOns) */
+.diensten-fade {
+  position: relative;
+}
+
+.diensten-fade::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Smooth cream fade (OverOns to Contact) */
+.overton-fade {
+  position: relative;
+}
+
+.overton-fade::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 60%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  pointer-events: none;
+  z-index: 5;
 }
 

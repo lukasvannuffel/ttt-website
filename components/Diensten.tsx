@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import type { Dienst } from "@/types/diensten";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { MOBILE_BREAKPOINT_PX } from "@/constants/config";
 
 import dienstenData from "@/data/diensten.json";
@@ -25,18 +26,18 @@ function ServiceImagePlaceholder({
     <div
       className="relative h-full w-full overflow-hidden bg-[var(--bg-primary)]"
       style={{
-        background: `linear-gradient(135deg, var(--accent-tertiary) 0%, var(--accent-secondary) 40%, var(--accent-primary) 100%)`,
+        background: `linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 60%, var(--accent-tertiary) 100%)`,
       }}
     >
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/90">
-        <span className="text-4xl" aria-hidden>
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/85">
+        <span className="text-5xl" aria-hidden>
           {icon}
         </span>
-        <span className="max-w-[85%] text-center text-xs opacity-80">
+        <span className="max-w-[85%] text-center text-xs font-light opacity-75">
           {title}
         </span>
       </div>
-      <div className="absolute bottom-2 right-2 font-serif text-4xl font-bold text-white/20">
+      <div className="absolute bottom-3 right-3 font-serif text-3xl font-light text-white/15">
         {String(index + 1).padStart(2, "0")}
       </div>
     </div>
@@ -52,18 +53,22 @@ const ServiceCard = ({
   index: number;
   isActive: boolean;
 }) => {
+  const ref = useScrollReveal(0.2);
+
   return (
     <article
-      className="group flex h-full flex-col border border-[var(--border)] bg-[var(--surface)]"
+      ref={ref}
+      className="group flex h-full flex-col border border-[var(--border)] bg-[var(--surface)] transition-all duration-500 hover:shadow-[0_24px_48px_rgba(27,67,50,0.2)] hover:-translate-y-2 hover:border-[var(--accent-tertiary)] opacity-0"
+      style={{ animationDelay: `${index * 0.08}s` }}
       aria-current={isActive ? "true" : undefined}
     >
-      <div className="relative h-[200px] w-full shrink-0 overflow-hidden md:h-[220px]">
+      <div className="relative h-[200px] w-full shrink-0 overflow-hidden md:h-[240px] bg-gradient-to-br from-[var(--accent-secondary)] to-[var(--accent-primary)]">
         {dienst.image ? (
           <Image
             src={dienst.image}
             alt=""
             fill
-            className="object-cover object-center"
+            className="object-cover object-center transition-transform duration-600 group-hover:scale-120 opacity-85 group-hover:opacity-100"
             sizes="(max-width: 768px) 100vw, 33vw"
           />
         ) : (
@@ -73,28 +78,33 @@ const ServiceCard = ({
             index={index}
           />
         )}
+        {/* Overlay accent */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--accent-primary)]/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+
+        {/* Organic corner accent */}
+        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-[var(--accent-warm)]/20 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </div>
-      <div className="flex min-h-0 flex-1 flex-col px-4 py-4 md:px-5 md:py-5">
-        <div className="min-h-[7.5rem] shrink-0">
-          <span
-            className="mb-1 block font-mono text-xs font-medium tracking-widest text-[var(--accent-primary)]"
-            aria-hidden
-          >
-            {String(index + 1).padStart(2, "0")}
-          </span>
-          <h3 className="font-serif text-lg font-bold leading-tight text-[var(--text-primary)] md:text-xl">
+      <div className="flex min-h-0 flex-1 flex-col px-6 py-7 md:px-7 md:py-8">
+        <div className="min-h-[8rem] shrink-0">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs font-bold tracking-widest text-[var(--accent-primary)] opacity-60">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div className="flex-grow h-0.5 bg-gradient-to-r from-[var(--accent-tertiary)] to-transparent opacity-30 group-hover:opacity-60 transition-opacity duration-500" />
+          </div>
+          <h3 className="font-serif text-lg font-bold leading-tight text-[var(--text-primary)] md:text-xl group-hover:text-[var(--accent-primary)] transition-colors duration-400">
             {dienst.title}
           </h3>
-          <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[var(--text-secondary)]">
             {dienst.description}
           </p>
         </div>
-        <div className="min-h-[3rem] shrink-0 pt-2">
-          <div className="flex flex-wrap gap-1.5">
+        <div className="min-h-[3rem] shrink-0 pt-4 mt-auto">
+          <div className="flex flex-wrap gap-2">
             {dienst.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-sm border border-[var(--border)] bg-[var(--bg-primary)] px-2.5 py-1 text-[11px] font-medium text-[var(--text-secondary)]"
+                className="rounded-sm border border-[var(--accent-tertiary)] bg-gradient-to-br from-[var(--accent-tertiary)]/8 to-transparent px-3 py-1.5 text-[10px] font-semibold tracking-wide text-[var(--text-secondary)] transition-all duration-300 group-hover:border-[var(--accent-warm)] group-hover:bg-gradient-to-br group-hover:from-[var(--accent-warm)]/15 group-hover:to-transparent group-hover:text-[var(--accent-warm)]"
               >
                 {tag}
               </span>
@@ -139,6 +149,7 @@ function Chevron({ direction }: { direction: "left" | "right" }) {
 export function Diensten() {
   const [activeIndex, setActiveIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useScrollReveal<HTMLElement>(0.3);
   const isMobile = useIsMobile();
 
   const cardsVisible = isMobile ? 1 : 3;
@@ -150,8 +161,8 @@ export function Diensten() {
   }, []);
 
   const goNext = useCallback(() => {
-    setActiveIndex((i) => Math.min(Math.max(0, diensten.length - cardsVisible), i + 1));
-  }, []);
+    setActiveIndex((i) => Math.min(maxIndex, i + 1));
+  }, [maxIndex]);
 
   useEffect(() => {
     function handleKeydown(e: KeyboardEvent) {
@@ -221,10 +232,10 @@ export function Diensten() {
           aria-selected={index === activeIndex}
           aria-label={`Slide ${index + 1}`}
           onClick={() => setActiveIndex(index)}
-          className={`h-2 w-2 rounded-full transition-colors md:h-2.5 md:w-2.5 ${
+          className={`transition-all duration-300 rounded-full ${
             index === activeIndex
-              ? "bg-[var(--accent-primary)]"
-              : "bg-[var(--border)] hover:bg-[var(--accent-tertiary)]"
+              ? "h-3 w-8 md:h-3 md:w-10 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] shadow-[0_4px_12px_rgba(27,67,50,0.2)]"
+              : "h-2 w-2 md:h-2.5 md:w-2.5 bg-[var(--border)] hover:bg-[var(--accent-tertiary)]"
           }`}
         />
       )),
@@ -235,28 +246,42 @@ export function Diensten() {
     <section
       ref={sectionRef}
       id="diensten"
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[var(--bg-primary)]"
+      className="relative flex min-h-screen w-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[var(--bg-primary)] via-[var(--bg-primary)] to-[var(--surface)]"
       style={{ scrollMarginTop: "6rem" }}
       tabIndex={0}
     >
-      <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center justify-center px-6 py-8 md:px-10 md:py-12 lg:px-16">
-        <header className="mb-6 shrink-0 text-center md:mb-8">
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-[var(--text-tertiary)]">
-            Onze Diensten
-          </p>
+      {/* Organic background accents */}
+      <div className="absolute -top-40 -right-32 w-96 h-96 rounded-full bg-gradient-to-br from-[var(--accent-tertiary)] to-transparent opacity-6 blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 left-1/4 w-80 h-80 rounded-full bg-gradient-to-tr from-[var(--accent-secondary)] to-transparent opacity-5 blur-3xl pointer-events-none" />
+
+      <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center justify-center px-6 py-12 md:px-10 md:py-16 lg:px-16 relative z-10">
+        <header ref={headerRef} className="mb-12 shrink-0 text-center md:mb-16 opacity-0">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="w-2 h-2 rounded-full bg-[var(--accent-tertiary)]" />
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--accent-primary)]">
+              Onze Diensten
+            </p>
+            <div className="w-2 h-2 rounded-full bg-[var(--accent-tertiary)]" />
+          </div>
           <h2 className="font-serif text-3xl font-bold leading-[1.1] tracking-tight text-[var(--text-primary)] md:text-4xl lg:text-5xl">
             Vakwerk in elke tak
           </h2>
+          <p className="mt-4 text-[var(--text-secondary)] text-sm md:text-base max-w-2xl mx-auto">
+            Professionele boomverzorging voor elk project, van vellen tot onderhoud
+          </p>
         </header>
 
         <div className="flex w-full flex-col items-center">
           <div
-            className="h-[440px] w-full overflow-hidden touch-pan-y"
+            className="relative h-[540px] w-full overflow-hidden touch-pan-y md:h-[520px]"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
+            {/* Subtle vignette effect on carousel */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-primary)]/40 via-transparent to-[var(--bg-primary)]/40 pointer-events-none z-20" />
+
             <div
-              className="flex h-full items-stretch transition-transform duration-300 ease-out"
+              className="flex h-full items-stretch transition-transform duration-400 ease-out"
               style={{
                 transform: `translateX(-${activeIndex * cardWidthPercent}%)`,
               }}
@@ -283,23 +308,27 @@ export function Diensten() {
             </div>
           </div>
 
-          <div className="mt-4 flex shrink-0 items-center justify-center gap-4 md:mt-6">
+          <div className="mt-10 flex shrink-0 items-center justify-center gap-6 md:mt-12">
             <button
               type="button"
               onClick={goPrev}
               disabled={atStart}
               aria-label="Vorige dienst"
-              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] transition-colors hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] disabled:pointer-events-none disabled:opacity-40"
+              className="group flex min-h-[48px] min-w-[48px] items-center justify-center rounded-full border border-[var(--accent-tertiary)] bg-gradient-to-br from-[var(--accent-tertiary)]/10 to-transparent text-[var(--text-primary)] transition-all duration-300 hover:border-[var(--accent-primary)] hover:bg-gradient-to-br hover:from-[var(--accent-primary)]/15 hover:to-transparent hover:text-[var(--accent-primary)] hover:shadow-[0_8px_20px_rgba(27,67,50,0.15)] disabled:pointer-events-none disabled:opacity-30"
             >
               <Chevron direction="left" />
             </button>
 
             <div
-              className="flex gap-2"
+              className="flex gap-3"
               role="tablist"
               aria-label="Diensten"
             >
-              {dotButtons}
+              {dotButtons.map((dot, idx) => (
+                <div key={idx} className="flex items-center">
+                  {dot}
+                </div>
+              ))}
             </div>
 
             <button
@@ -307,7 +336,7 @@ export function Diensten() {
               onClick={goNext}
               disabled={atEnd}
               aria-label="Volgende dienst"
-              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] transition-colors hover:border-[var(--accent-primary)] hover:text-[var(--accent-primary)] disabled:pointer-events-none disabled:opacity-40"
+              className="group flex min-h-[48px] min-w-[48px] items-center justify-center rounded-full border border-[var(--accent-tertiary)] bg-gradient-to-br from-[var(--accent-tertiary)]/10 to-transparent text-[var(--text-primary)] transition-all duration-300 hover:border-[var(--accent-primary)] hover:bg-gradient-to-br hover:from-[var(--accent-primary)]/15 hover:to-transparent hover:text-[var(--accent-primary)] hover:shadow-[0_8px_20px_rgba(27,67,50,0.15)] disabled:pointer-events-none disabled:opacity-30"
             >
               <Chevron direction="right" />
             </button>
