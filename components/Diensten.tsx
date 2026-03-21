@@ -246,7 +246,7 @@ export function Diensten() {
     <section
       ref={sectionRef}
       id="diensten"
-      className="relative flex min-h-screen w-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[var(--bg-primary)] via-[var(--bg-primary)] to-[var(--surface)]"
+      className="relative flex min-h-screen w-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[var(--bg-primary)] via-[var(--bg-primary)] to-[rgba(45,110,95,0.05)]"
       style={{ scrollMarginTop: "6rem" }}
       tabIndex={0}
     >

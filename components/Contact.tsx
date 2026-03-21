@@ -66,7 +66,7 @@ export function Contact() {
     <section
       ref={contactRef}
       id="contact"
-      className="opacity-0 relative min-h-screen flex items-center px-6 py-20 md:px-10 md:py-24 lg:px-16 bg-gradient-to-b from-[var(--surface)] via-[var(--surface)] to-[var(--surface)] overflow-hidden"
+      className="opacity-0 relative min-h-screen flex items-center px-6 py-20 md:px-10 md:py-24 lg:px-16 bg-gradient-to-b from-[var(--surface)] via-[var(--surface)] to-[rgba(27,67,50,0.05)] overflow-hidden"
     >
       {/* Organic background accents */}
       <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-gradient-to-br from-[var(--accent-tertiary)] to-transparent opacity-8 blur-3xl pointer-events-none" />

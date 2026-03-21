@@ -12,7 +12,7 @@ export function OverOns() {
   return (
     <section
       id="over"
-      className="bg-gradient-to-b from-[var(--surface)] to-[var(--surface)] min-h-screen flex items-center px-6 py-16 md:px-10 md:py-24 lg:px-16 relative overflow-hidden"
+      className="bg-gradient-to-b from-[var(--surface)] to-[rgba(160,210,180,0.06)] min-h-screen flex items-center px-6 py-16 md:px-10 md:py-24 lg:px-16 relative overflow-hidden"
     >
       {/* Organic background accent */}
       <div className="absolute -left-32 top-1/3 w-80 h-80 rounded-full bg-gradient-to-br from-[var(--accent-tertiary)] to-transparent opacity-5 blur-3xl pointer-events-none" />
