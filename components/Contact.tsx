@@ -77,7 +77,7 @@ export function Contact() {
             Klaar voor professioneel boomwerk?
           </h2>
           <p className="max-w-2xl text-base leading-relaxed text-[var(--text-secondary)]">
-            Vul het formulier in en we nemen zo snel mogelijk contact met je op.
+            Vul het formulier in en ik neem zo snel mogelijk contact met je op.
             Vragen? <br/> Bel ons direct op +32 479 92 74 26.
           </p>
         </div>
@@ -215,7 +215,7 @@ export function Contact() {
             {/* Success Message */}
             {submitted && (
               <div className="mt-6 p-4 bg-[rgba(74,124,89,0.1)] border border-[var(--accent-tertiary)] rounded-lg text-[var(--accent-primary)] text-sm">
-                ✓ Bedankt! We nemen snel contact met je op.
+                ✓ Bedankt! Ik neem snel contact met je op.
               </div>
             )}
             {submitError && (
