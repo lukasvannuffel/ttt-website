@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
+import { INSTAGRAM_URL } from "@/constants/config";
 
-const INSTAGRAM_URL = "https://instagram.com/treetoptom";
 const PHONE_URL = "tel:+32479927426";
 const EMAIL_URL = "mailto:info@treetoptom.be";
 
