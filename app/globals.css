@@ -425,6 +425,74 @@ a, button {
   outline-offset: 2px;
 }
 
+/* ── Mobile nav scroll animation ────────────────────────────────── */
+/* Wrapper: only animate transform + top (GPU-composited)           */
+/* Nav inner: snap sizing, no layout transitions                    */
+/* Logo: fade opacity only                                          */
+/* ─────────────────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  /* Wrapper glides to corner — only transform + top (GPU-composited) */
+  .nav-mobile-wrapper {
+    transition-property: transform, top;
+    transition-duration: 900ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  /* Nav pill morphs shape — slightly delayed for stagger feel */
+  .nav-mobile-inner {
+    transition-property: border-radius, background-color, box-shadow;
+    transition-duration: 700ms;
+    transition-delay: 100ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Collapsed: square with centered hamburger */
+  .nav-mobile-inner.nav-collapsed {
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* Logo: instant fade, no delay */
+  .nav-mobile-logo {
+    transition-property: opacity;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-mobile-logo.collapsed {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  /* Hamburger: always 52×52 tap target, centered via flexbox on nav */
+  .nav-mobile-hamburger {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
+  }
+}
+
+/* Desktop: no scroll animation, standard transitions */
+@media (min-width: 768px) {
+  .nav-mobile-wrapper {
+    transition-property: top;
+    transition-duration: 400ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .nav-mobile-inner {
+    transition: none;
+  }
+}
+
 /* Hero */
 .hero-label {
   display: flex;

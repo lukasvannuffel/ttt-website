@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { INSTAGRAM_URL, SCROLL_THRESHOLD } from "@/constants/config";
 
 function InstagramIcon() {
@@ -87,15 +87,39 @@ const menuItems = [
 export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isNavCollapsed, setIsNavCollapsed] = useState(false);
+  const lastScrollYRef = useRef(0);
+  const isDownRef = useRef(false);
 
   useEffect(() => {
     function handleScroll() {
-      setIsScrolled(window.scrollY > SCROLL_THRESHOLD);
+      const y = window.scrollY;
+      const isMobile = window.innerWidth < 768;
+
+      setIsScrolled(y > SCROLL_THRESHOLD);
+
+      if (!isMobile) {
+        // Never collapse on desktop
+        if (isDownRef.current) {
+          isDownRef.current = false;
+          setIsNavCollapsed(false);
+        }
+        lastScrollYRef.current = y;
+        return;
+      }
+
+      const goingDown = y > lastScrollYRef.current && y > 50;
+
+      // Only update state when direction actually changes
+      if (goingDown !== isDownRef.current) {
+        isDownRef.current = goingDown;
+        setIsNavCollapsed(goingDown);
+      }
+
+      lastScrollYRef.current = y;
     }
 
-    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -128,14 +152,24 @@ export function Navigation() {
   return (
     <>
       <div
-        className={`fixed left-1/2 z-[1000] -translate-x-1/2 transition-all duration-[400ms] ease-[cubic-bezier(0.4,0,0.2,1)] ${
-          isScrolled ? "top-3 md:top-4" : "top-6 md:top-8"
+        className={`nav-mobile-wrapper fixed left-1/2 z-[1000] ${
+          isNavCollapsed
+            ? "top-3 -translate-x-[calc(50%-50vw+1rem+26px)]"
+            : `-translate-x-1/2 ${isScrolled ? "top-3 md:top-4" : "top-6 md:top-8"}`
         }`}
       >
-        <nav className="flex items-center justify-between gap-4 md:gap-12 rounded-2xl md:rounded-xl border border-[var(--border)]/40 bg-white/40 px-4 py-3 md:px-6 md:py-3.5 shadow-lg shadow-[var(--accent-primary)]/5 backdrop-blur-2xl transition-all duration-300 md:bg-white/35 md:shadow-[0_8px_32px_rgba(45,80,68,0.08)]">
+        <nav
+          className={`nav-mobile-inner flex items-center overflow-hidden border border-[var(--border)]/40 backdrop-blur-2xl md:gap-12 md:rounded-xl md:bg-white/35 md:px-6 md:py-3.5 md:shadow-[0_8px_32px_rgba(45,80,68,0.08)] ${
+            isNavCollapsed
+              ? "nav-collapsed justify-center rounded-xl bg-white/60 shadow-[0_8px_32px_rgba(45,80,68,0.12)]"
+              : "gap-4 rounded-2xl bg-white/40 px-4 py-3 shadow-lg shadow-[var(--accent-primary)]/5"
+          }`}
+        >
           <Link
             href="/"
-            className="flex items-center no-underline flex-shrink-0"
+            className={`nav-mobile-logo flex items-center no-underline flex-shrink-0 ${
+              isNavCollapsed ? "collapsed" : ""
+            }`}
             aria-label="Tree Top Tom - Home"
           >
             <Image
@@ -143,7 +177,7 @@ export function Navigation() {
               alt=""
               width={90}
               height={100}
-              className="h-8 w-auto md:h-10 transition-all duration-300"
+              className="h-8 w-auto md:h-10"
               priority
             />
           </Link>
@@ -164,7 +198,7 @@ export function Navigation() {
           <button
             type="button"
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="md:hidden flex h-10 w-10 items-center justify-center rounded-full text-[var(--text-primary)] transition-all duration-300 hover:bg-[var(--bg-primary)] hover:text-[var(--accent-primary)]"
+            className="nav-mobile-hamburger md:hidden flex flex-shrink-0 items-center justify-center rounded-full text-[var(--text-primary)] hover:text-[var(--accent-primary)]"
             aria-label={isMenuOpen ? "Menu sluiten" : "Menu openen"}
             aria-expanded={isMenuOpen}
           >
