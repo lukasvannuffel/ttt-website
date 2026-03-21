@@ -152,24 +152,43 @@ export function Navigation() {
   return (
     <>
       <div
-        className={`nav-mobile-wrapper fixed left-1/2 z-[1000] ${
+        className={`fixed left-1/2 z-[1000] ${
           isNavCollapsed
-            ? "top-3 -translate-x-[calc(50%-50vw+1rem+26px)]"
-            : `-translate-x-1/2 ${isScrolled ? "top-3 md:top-4" : "top-6 md:top-8"}`
+            ? "top-3"
+            : `${isScrolled ? "top-3 md:top-4" : "top-6 md:top-8"}`
         }`}
+        style={{
+          transform: isNavCollapsed
+            ? "translateX(calc(-50% + 50vw - 1rem - 26px))"
+            : "translateX(-50%)",
+          transition: "transform 900ms cubic-bezier(0.22, 1, 0.36, 1), top 400ms cubic-bezier(0.4, 0, 0.2, 1)",
+        }}
       >
         <nav
-          className={`nav-mobile-inner flex items-center overflow-hidden border border-[var(--border)]/40 backdrop-blur-2xl md:gap-12 md:rounded-xl md:bg-white/35 md:px-6 md:py-3.5 md:shadow-[0_8px_32px_rgba(45,80,68,0.08)] ${
+          className={`flex items-center overflow-hidden border border-[var(--border)]/40 backdrop-blur-2xl md:gap-12 md:rounded-xl md:bg-white/35 md:px-6 md:py-3.5 md:shadow-[0_8px_32px_rgba(45,80,68,0.08)] ${
             isNavCollapsed
-              ? "nav-collapsed justify-center rounded-xl bg-white/60 shadow-[0_8px_32px_rgba(45,80,68,0.12)]"
+              ? "justify-center rounded-xl bg-white/60 shadow-[0_8px_32px_rgba(45,80,68,0.12)]"
               : "gap-4 rounded-2xl bg-white/40 px-4 py-3 shadow-lg shadow-[var(--accent-primary)]/5"
           }`}
+          style={{
+            width: isNavCollapsed ? 52 : undefined,
+            height: isNavCollapsed ? 52 : undefined,
+            padding: isNavCollapsed ? 0 : undefined,
+            gap: isNavCollapsed ? 0 : undefined,
+            transition: "border-radius 700ms cubic-bezier(0.22, 1, 0.36, 1), background-color 700ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+          }}
         >
           <Link
             href="/"
-            className={`nav-mobile-logo flex items-center no-underline flex-shrink-0 ${
-              isNavCollapsed ? "collapsed" : ""
-            }`}
+            className="flex items-center no-underline flex-shrink-0"
+            style={{
+              opacity: isNavCollapsed ? 0 : 1,
+              position: isNavCollapsed ? "absolute" : "relative",
+              width: isNavCollapsed ? 0 : "auto",
+              overflow: isNavCollapsed ? "hidden" : "visible",
+              pointerEvents: isNavCollapsed ? "none" : "auto",
+              transition: "opacity 200ms cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
             aria-label="Tree Top Tom - Home"
           >
             <Image
