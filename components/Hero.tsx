@@ -46,18 +46,17 @@ export function Hero() {
     };
   }, [isMobile]);
 
-  // Desktop parallax
   // Scroll-triggered parallax for desktop
   useEffect(() => {
-    if (isMobile) return;
-
     function handleScroll() {
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
       }
 
       rafRef.current = requestAnimationFrame(() => {
-        setOffsetY(window.scrollY * PARALLAX_FACTOR);
+        if (!isMobile) {
+          setOffsetY(window.scrollY * PARALLAX_FACTOR);
+        }
         rafRef.current = null;
       });
     }
@@ -72,33 +71,15 @@ export function Hero() {
     };
   }, [isMobile]);
 
-  // Scroll-triggered reveal for mobile using Intersection Observer
-  useEffect(() => {
-    if (!isMobile || !imageRef.current) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsImageVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(imageRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [isMobile]);
-
   return (
     <section
       id="home"
-      className="relative grid h-screen grid-cols-1 grid-rows-[2fr_auto] overflow-hidden lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1 lg:h-auto"
+      className="relative grid grid-cols-1 grid-rows-[62vh_auto] lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1"
     >
-      <div className="order-2 -mt-1 flex flex-col justify-center bg-gradient-to-b from-[var(--bg-primary)] via-[var(--bg-primary)] to-[rgba(160,210,180,0.08)] px-8 pb-20 pt-8 md:mt-0 md:px-16 md:pt-[140px] lg:order-1 lg:pt-[160px] lg:pl-[120px] lg:pr-20 relative overflow-hidden">
+      <div className="order-1 h-[62vh] lg:hidden" aria-hidden />
+      <div
+        className="order-2 -mt-1 relative z-20 flex flex-col justify-center overflow-hidden bg-[var(--bg-primary)] px-8 pb-20 pt-8 md:mt-0 md:px-16 md:pt-[140px] lg:order-1 lg:bg-gradient-to-b lg:from-[var(--bg-primary)] lg:via-[var(--bg-primary)] lg:to-[rgba(160,210,180,0.08)] lg:pt-[160px] lg:pl-[120px] lg:pr-20"
+      >
         {/* Organic background accent */}
         <div className="absolute -right-40 top-0 w-96 h-96 rounded-full bg-gradient-to-br from-[var(--accent-tertiary)] to-transparent opacity-5 blur-3xl pointer-events-none" />
 
@@ -125,7 +106,7 @@ export function Hero() {
         </div>
       </div>
       <div
-        className="hero-image-container order-1 relative min-h-0 w-full overflow-hidden lg:order-2 lg:h-full"
+        className="hero-image-container fixed left-0 right-0 top-0 z-0 h-[62vh] w-full overflow-hidden lg:order-2 lg:relative lg:left-auto lg:right-auto lg:top-auto lg:h-full"
         style={{
           clipPath: isMobile ? "none" : "polygon(15% 0, 100% 0, 100% 100%, 0 100%)",
         }}

@@ -24,7 +24,12 @@ export function ScrollProgress() {
   return (
     <div
       className="scroll-progress"
-      style={{ width: `${scrollProgress}%` }}
+      style={{
+        width: `${scrollProgress}%`,
+        backgroundColor: "#14532d",
+        height: "4px",
+        opacity: 1,
+      }}
       role="progressbar"
       aria-valuenow={Math.round(scrollProgress)}
       aria-valuemin={0}

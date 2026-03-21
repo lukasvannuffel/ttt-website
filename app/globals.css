@@ -279,8 +279,8 @@ footer {
   position: fixed;
   top: 0;
   left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+  height: 3px;
+  background: var(--accent-primary);
   width: 0%;
   z-index: 9999;
   pointer-events: none;
