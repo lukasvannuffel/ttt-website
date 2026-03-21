@@ -31,6 +31,11 @@ export const metadata: Metadata = {
     template: "%s | Tree Top Tom",
   },
   description: siteDescription,
+  icons: {
+    icon: "/Logo.svg",
+    shortcut: "/Logo.svg",
+    apple: "/Logo.svg",
+  },
   keywords: [
     "boomverzorging",
     "bomen vellen",
