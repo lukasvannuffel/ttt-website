@@ -62,7 +62,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative grid grid-cols-1 grid-rows-[62vh_auto] lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1"
+      className="relative grid grid-cols-1 grid-rows-[62vh_auto] h-[100svh] lg:h-auto lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1"
     >
       <div className="order-1 h-[62vh] lg:hidden" aria-hidden />
       <div
