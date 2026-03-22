@@ -62,9 +62,9 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative grid grid-cols-1 grid-rows-[62vh_auto] h-[100svh] lg:h-auto lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1"
+      className="relative grid grid-cols-1 grid-rows-[52vh_auto] h-[100svh] lg:h-auto lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1"
     >
-      <div className="order-1 h-[62vh] lg:hidden" aria-hidden />
+      <div className="order-1 h-[52vh] lg:hidden" aria-hidden />
       <div
         className="order-2 -mt-1 relative z-20 flex flex-col justify-center overflow-hidden bg-[var(--bg-primary)] px-8 pb-20 pt-8 md:mt-0 md:px-16 md:pt-[140px] lg:order-1 lg:bg-gradient-to-b lg:from-[var(--bg-primary)] lg:via-[var(--bg-primary)] lg:to-[rgba(160,210,180,0.08)] lg:pt-[160px] lg:pl-[120px] lg:pr-20"
       >
@@ -94,7 +94,7 @@ export function Hero() {
         </div>
       </div>
       <div
-        className="hero-image-container fixed left-0 right-0 top-0 z-0 h-[62vh] w-full overflow-hidden lg:order-2 lg:relative lg:left-auto lg:right-auto lg:top-auto lg:h-full"
+        className="hero-image-container fixed left-0 right-0 top-0 z-0 h-[52vh] w-full overflow-hidden lg:order-2 lg:relative lg:left-auto lg:right-auto lg:top-auto lg:h-full"
         style={{
           clipPath: isMobile ? "none" : "polygon(15% 0, 100% 0, 100% 100%, 0 100%)",
         }}

@@ -59,7 +59,7 @@ export function Footer() {
   const ref = useScrollReveal(0.2);
 
   return (
-    <footer ref={ref} className="opacity-0 border-t border-[var(--border)] bg-[var(--bg-secondary)] px-8 pb-12 pt-20 md:px-12 md:pb-16 md:pt-24 lg:px-16 xl:px-24">
+    <footer ref={ref} className="relative z-20 opacity-0 border-t border-[var(--border)] bg-[var(--bg-secondary)] px-8 pb-12 pt-20 md:px-12 md:pb-16 md:pt-24 lg:px-16 xl:px-24">
       <div className="mx-auto mb-16 grid w-full max-w-5xl grid-cols-1 gap-14 md:gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-20">
         <div>
           <div className="flex justify-center lg:justify-start">
