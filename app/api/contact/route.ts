@@ -1,17 +1,9 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
+import { EMAIL_ADDRESS } from "@/constants/config";
 import { MESSAGE_MAX_LENGTH } from "@/constants/config";
 import { parseContactPayload } from "@/types/contact";
-
-const REQUIRED_ENV_KEYS = [
-    "SMTP_HOST",
-    "SMTP_PORT",
-    "SMTP_SECURE",
-    "SMTP_USER",
-    "SMTP_PASS",
-    "CONTACT_TO_EMAIL",
-] as const;
 
 const MAX_NAME_LENGTH = 200;
 const MAX_EMAIL_LENGTH = 254;
@@ -20,27 +12,28 @@ const MAX_SERVICE_LENGTH = 100;
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const ALLOWED_SERVICES = [
+    "offerte",
+    "algemene-vraag",
+    "planning",
+    "samenwerking",
+    "anders",
+] as const;
+
 function isValidEmail(value: string): boolean {
     return EMAIL_REGEX.test(value);
 }
 
-function getMissingEnvVars(): string[] {
-    return REQUIRED_ENV_KEYS.filter((key: string) => !process.env[key]);
-}
-
-/**
- * Strips characters that could be used for email header injection.
- */
 function sanitize(value: string): string {
     return value.replace(/[\r\n]/g, " ");
 }
 
 export async function POST(request: Request): Promise<NextResponse> {
-    const missingEnvVars: string[] = getMissingEnvVars();
+    const apiKey = process.env.RESEND_API_KEY;
 
-    if (missingEnvVars.length > 0) {
+    if (!apiKey) {
         return NextResponse.json(
-            { error: `Missing email configuration: ${missingEnvVars.join(", ")}` },
+            { error: "Missing email configuration: RESEND_API_KEY" },
             { status: 500 },
         );
     }
@@ -84,6 +77,13 @@ export async function POST(request: Request): Promise<NextResponse> {
         );
     }
 
+    if (!ALLOWED_SERVICES.includes(payload.service as typeof ALLOWED_SERVICES[number])) {
+        return NextResponse.json(
+            { error: "Ongeldige dienst geselecteerd." },
+            { status: 400 },
+        );
+    }
+
     if (
         payload.name.length > MAX_NAME_LENGTH ||
         payload.email.length > MAX_EMAIL_LENGTH ||
@@ -97,23 +97,12 @@ export async function POST(request: Request): Promise<NextResponse> {
         );
     }
 
-    const smtpPort: number = Number(process.env.SMTP_PORT);
-    const smtpSecure: boolean = process.env.SMTP_SECURE === "true";
-
-    const transporter = nodemailer.createTransport({
-        host: process.env.SMTP_HOST,
-        port: smtpPort,
-        secure: smtpSecure,
-        auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-        },
-    });
+    const resend = new Resend(apiKey);
 
     try {
-        await transporter.sendMail({
-            from: process.env.CONTACT_FROM_EMAIL ?? process.env.SMTP_USER,
-            to: process.env.CONTACT_TO_EMAIL,
+        await resend.emails.send({
+            from: `Tree Top Tom <${process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev"}>`,
+            to: [process.env.CONTACT_TO_EMAIL ?? EMAIL_ADDRESS],
             replyTo: sanitize(payload.email),
             subject: `Nieuw contactformulier: ${sanitize(payload.service)}`,
             text: [
