@@ -101,7 +101,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     try {
         await resend.emails.send({
-            from: `Tree Top Tom <${process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev"}>`,
+            from: `Tree Top Tom <${process.env.RESEND_FROM_EMAIL ?? "info@treetoptom.be"}>`,
             to: [process.env.CONTACT_TO_EMAIL ?? EMAIL_ADDRESS],
             replyTo: sanitize(payload.email),
             subject: `Nieuw contactformulier: ${sanitize(payload.service)}`,
