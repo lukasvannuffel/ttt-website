@@ -71,6 +71,7 @@ export function Footer() {
                                 width={110}
                                 height={120}
                                 className="h-16 w-auto md:h-20"
+                                loading="eager"
                             />
                         </Link>
                     </div>

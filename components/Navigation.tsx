@@ -231,7 +231,8 @@ export function Navigation() {
                             width={90}
                             height={100}
                             className="h-8 w-auto md:h-10"
-                            priority
+                            loading="eager"
+
                         />
                     </Link>
 
