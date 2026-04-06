@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Lora, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 
 import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/Navigation";
@@ -30,6 +31,7 @@ const lora = Lora({
 const SITE_TITLE = "Tree Top Tom - Professionele Boomverzorging";
 const SITE_DESCRIPTION =
     "Professionele boomverzorging in Vlaams-Brabant. Vellen, snoeien, aanplanting, boomadvies en hakselen. Veilig, vakkundig en gecertificeerd.";
+const GOOGLE_TAG_ID = "G-3PEP2PQWVD";
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
@@ -141,6 +143,18 @@ export default function RootLayout({
     return (
         <html lang="nl">
             <head>
+                <Script
+                    src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`}
+                    strategy="afterInteractive"
+                />
+                <Script id="google-tag" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', '${GOOGLE_TAG_ID}');
+                    `}
+                </Script>
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }}

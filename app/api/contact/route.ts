@@ -1,4 +1,3 @@
-import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 import { EMAIL_ADDRESS } from "@/constants/config";
@@ -28,11 +27,11 @@ function sanitize(value: string): string {
     return value.replace(/[\r\n]/g, " ");
 }
 
-export async function POST(request: Request): Promise<NextResponse> {
+export async function POST(request: Request): Promise<Response> {
     const apiKey = process.env.RESEND_API_KEY;
 
     if (!apiKey) {
-        return NextResponse.json(
+        return Response.json(
             { error: "Missing email configuration: RESEND_API_KEY" },
             { status: 500 },
         );
@@ -43,7 +42,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     try {
         body = await request.json();
     } catch {
-        return NextResponse.json(
+        return Response.json(
             { error: "Ongeldig verzoek." },
             { status: 400 },
         );
@@ -52,7 +51,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     const payload = parseContactPayload(body);
 
     if (!payload) {
-        return NextResponse.json(
+        return Response.json(
             { error: "Ongeldig verzoek." },
             { status: 400 },
         );
@@ -64,21 +63,21 @@ export async function POST(request: Request): Promise<NextResponse> {
         !payload.service ||
         !payload.message
     ) {
-        return NextResponse.json(
+        return Response.json(
             { error: "Naam, email, type vraag en bericht zijn verplicht." },
             { status: 400 },
         );
     }
 
     if (!isValidEmail(payload.email)) {
-        return NextResponse.json(
+        return Response.json(
             { error: "Geef een geldig e-mailadres op." },
             { status: 400 },
         );
     }
 
     if (!ALLOWED_SERVICES.includes(payload.service as typeof ALLOWED_SERVICES[number])) {
-        return NextResponse.json(
+        return Response.json(
             { error: "Ongeldige dienst geselecteerd." },
             { status: 400 },
         );
@@ -91,7 +90,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         payload.service.length > MAX_SERVICE_LENGTH ||
         payload.message.length > MESSAGE_MAX_LENGTH
     ) {
-        return NextResponse.json(
+        return Response.json(
             { error: "Een of meer velden overschrijden de maximale lengte." },
             { status: 400 },
         );
@@ -116,11 +115,11 @@ export async function POST(request: Request): Promise<NextResponse> {
             ].join("\n"),
         });
     } catch {
-        return NextResponse.json(
+        return Response.json(
             { error: "Er ging iets mis bij het verzenden van de e-mail." },
             { status: 500 },
         );
     }
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return Response.json({ success: true }, { status: 200 });
 }

@@ -9,6 +9,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+    turbopack: {
+        root: __dirname,
+    },
     images: {
         formats: ["image/avif", "image/webp"],
     },
