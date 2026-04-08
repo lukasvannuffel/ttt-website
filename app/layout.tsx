@@ -28,7 +28,7 @@ const lora = Lora({
     display: "swap",
 });
 
-const SITE_TITLE = "Tree Top Tom - Professionele Boomverzorging";
+const SITE_TITLE = "Tree Top Tom | Professionele Boomverzorging";
 const SITE_DESCRIPTION =
     "Professionele boomverzorging in Vlaams-Brabant. Vellen, snoeien, aanplanting, boomadvies en hakselen. Veilig, vakkundig en gecertificeerd.";
 const GOOGLE_TAG_ID = "G-3PEP2PQWVD";
