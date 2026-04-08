@@ -41,9 +41,9 @@ export const metadata: Metadata = {
     },
     description: SITE_DESCRIPTION,
     icons: {
-        icon: "/Logo.svg",
-        shortcut: "/Logo.svg",
-        apple: "/Logo.svg",
+        icon: "/favicon.png",
+        shortcut: "/favicon.png",
+        apple: "/favicon.png",
     },
     keywords: [
         "boomverzorging",
