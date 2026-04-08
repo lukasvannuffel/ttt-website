@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import type { Dienst } from "@/types/diensten";
 import { MIN_SWIPE_DISTANCE_PX } from "@/constants/config";
@@ -157,15 +157,16 @@ export function Diensten() {
     const cardWidthPercent = 100 / cardsVisible;
     const maxIndex = Math.max(0, diensten.length - cardsVisible);
 
-    const atStart = activeIndex === 0;
-    const atEnd = activeIndex >= maxIndex;
+    const currentIndex = Math.min(activeIndex, maxIndex);
+    const atStart = currentIndex === 0;
+    const atEnd = currentIndex >= maxIndex;
 
     const goPrev = useCallback(() => {
-        setActiveIndex((i) => Math.max(0, i - 1));
-    }, []);
+        setActiveIndex((index) => Math.max(0, Math.min(index, maxIndex) - 1));
+    }, [maxIndex]);
 
     const goNext = useCallback(() => {
-        setActiveIndex((i) => Math.min(maxIndex, i + 1));
+        setActiveIndex((index) => Math.min(maxIndex, Math.min(index, maxIndex) + 1));
     }, [maxIndex]);
 
     // Keyboard navigation — only when focus is inside the section
@@ -186,11 +187,6 @@ export function Diensten() {
 
         return () => window.removeEventListener("keydown", handleKeydown);
     }, [goPrev, goNext]);
-
-    // Reset active index when card count changes (mobile ↔ desktop)
-    useEffect(() => {
-        setActiveIndex((i) => Math.min(i, maxIndex));
-    }, [maxIndex]);
 
     const handleTouchStart = useCallback((e: React.TouchEvent) => {
         touchStartRef.current = {
@@ -224,25 +220,21 @@ export function Diensten() {
         [goNext, goPrev, atStart, atEnd],
     );
 
-    const dotButtons = useMemo(
-        () =>
-            Array.from({ length: maxIndex + 1 }).map((_, index) => (
-                <button
-                    key={index}
-                    type="button"
-                    role="tab"
-                    aria-selected={index === activeIndex}
-                    aria-label={`Slide ${index + 1}`}
-                    onClick={() => setActiveIndex(index)}
-                    className={`transition-all duration-300 rounded-full ${
-                        index === activeIndex
-                            ? "h-3 w-8 md:h-3 md:w-10 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] shadow-[0_4px_12px_rgba(27,67,50,0.2)]"
-                            : "h-2 w-2 md:h-2.5 md:w-2.5 bg-[var(--border)] hover:bg-[var(--accent-tertiary)]"
-                    }`}
-                />
-            )),
-        [maxIndex, activeIndex],
-    );
+    const dotButtons = Array.from({ length: maxIndex + 1 }).map((_, index) => (
+        <button
+            key={index}
+            type="button"
+            role="tab"
+            aria-selected={index === currentIndex}
+            aria-label={`Slide ${index + 1}`}
+            onClick={() => setActiveIndex(index)}
+            className={`transition-all duration-300 rounded-full ${
+                index === currentIndex
+                    ? "h-3 w-8 md:h-3 md:w-10 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] shadow-[0_4px_12px_rgba(27,67,50,0.2)]"
+                    : "h-2 w-2 md:h-2.5 md:w-2.5 bg-[var(--border)] hover:bg-[var(--accent-tertiary)]"
+            }`}
+        />
+    ));
 
     return (
         <section
@@ -284,7 +276,7 @@ export function Diensten() {
 
                         <div
                             className="flex h-full items-stretch transition-transform duration-400 ease-out"
-                            style={{ transform: `translateX(-${activeIndex * cardWidthPercent}%)` }}
+                            style={{ transform: `translateX(-${currentIndex * cardWidthPercent}%)` }}
                         >
                             {diensten.map((dienst, index) => (
                                 <div
@@ -298,7 +290,7 @@ export function Diensten() {
                                     <ServiceCard
                                         dienst={dienst}
                                         index={index}
-                                        isActive={index >= activeIndex && index < activeIndex + cardsVisible}
+                                        isActive={index >= currentIndex && index < currentIndex + cardsVisible}
                                     />
                                 </div>
                             ))}

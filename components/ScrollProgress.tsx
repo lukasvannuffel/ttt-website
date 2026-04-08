@@ -7,6 +7,10 @@ export function ScrollProgress() {
     const rafRef = useRef<number | null>(null);
 
     useEffect(() => {
+        if (window.innerWidth < 768) {
+            return;
+        }
+
         function handleScroll(): void {
             if (rafRef.current !== null) {
                 return;
@@ -22,7 +26,7 @@ export function ScrollProgress() {
                     : 0;
 
                 if (barRef.current) {
-                    barRef.current.style.width = `${progress}%`;
+                    barRef.current.style.transform = `scaleX(${Math.min(progress / 100, 1)})`;
                 }
 
                 rafRef.current = null;
@@ -44,6 +48,7 @@ export function ScrollProgress() {
         <div
             ref={barRef}
             className="scroll-progress"
+            style={{ transform: "scaleX(0)", transformOrigin: "left center" }}
             role="progressbar"
             aria-label="Scrollvoortgang"
             aria-valuemin={0}

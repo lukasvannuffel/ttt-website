@@ -294,7 +294,13 @@ footer {
 
 /* Premium link and button transitions */
 a, button {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Smooth text selection */
@@ -375,7 +381,12 @@ a, button {
   border: none;
   border-radius: 2px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   text-transform: uppercase;
 }
 
@@ -479,6 +490,28 @@ a, button {
   background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-secondary) 85%, transparent 100%);
   transform: skewY(-2.5deg);
   transform-origin: top left;
+}
+
+@media (max-width: 767px) {
+  .hero-image-container,
+  .hero-image-parallax {
+    animation: none !important;
+  }
+
+  .glow-on-hover:hover {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 

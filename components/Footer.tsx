@@ -1,10 +1,7 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 
 import { EMAIL_URL, INSTAGRAM_URL, PHONE_URL } from "@/constants/config";
-import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const socialLinks = [
     {
@@ -54,12 +51,9 @@ const navigatieLinks = [
 ] as const;
 
 export function Footer() {
-    const ref = useScrollReveal(0.2);
-
     return (
         <footer
-            ref={ref}
-            className="relative z-20 opacity-0 border-t border-[var(--border)] bg-[var(--bg-secondary)] px-8 pb-12 pt-20 md:px-12 md:pb-16 md:pt-24 lg:px-16 xl:px-24"
+            className="relative z-20 border-t border-[var(--border)] bg-[var(--bg-secondary)] px-8 pb-12 pt-20 md:px-12 md:pb-16 md:pt-24 lg:px-16 xl:px-24"
         >
             <div className="mx-auto mb-16 grid w-full max-w-5xl grid-cols-1 gap-14 md:gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-start lg:gap-20">
                 <div>
@@ -71,7 +65,6 @@ export function Footer() {
                                 width={110}
                                 height={120}
                                 className="h-16 w-auto md:h-20"
-                                loading="eager"
                             />
                         </Link>
                     </div>

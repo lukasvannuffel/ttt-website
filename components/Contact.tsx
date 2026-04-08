@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { MESSAGE_MAX_LENGTH, PHONE_NUMBER, SUBMIT_SUCCESS_TIMEOUT_MS } from "@/constants/config";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
@@ -44,12 +44,39 @@ declare global {
 
 export function Contact() {
     const contactRef = useScrollReveal<HTMLElement>(0.2);
+    const formContainerRef = useRef<HTMLDivElement>(null);
 
     const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [submitError, setSubmitError] = useState("");
+    const [loadCaptchaScript, setLoadCaptchaScript] = useState(false);
     const isCaptchaConfigured = TURNSTILE_SITE_KEY.length > 0;
+
+    useEffect(() => {
+        if (!isCaptchaConfigured || !formContainerRef.current) {
+            return;
+        }
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
+
+                setLoadCaptchaScript(true);
+                observer.disconnect();
+            },
+            {
+                rootMargin: "300px 0px",
+                threshold: 0.01,
+            },
+        );
+
+        observer.observe(formContainerRef.current);
+
+        return () => observer.disconnect();
+    }, [isCaptchaConfigured]);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
         const { name, value } = e.target;
@@ -148,7 +175,7 @@ export function Contact() {
                 </div>
 
                 {/* Form container */}
-                <div className="relative">
+                <div className="relative" ref={formContainerRef}>
                     {/* Decorative background */}
                     <div className="absolute inset-0 bg-gradient-to-br from-[rgba(184,149,106,0.08)] to-[rgba(74,124,89,0.06)] rounded-2xl blur-xl" aria-hidden="true" />
 
@@ -158,10 +185,12 @@ export function Contact() {
                         aria-label="Contactformulier"
                         className="relative bg-white/70 backdrop-blur-sm border border-[rgba(184,149,106,0.2)] rounded-2xl p-8 md:p-12 shadow-lg hover:shadow-xl transition-shadow duration-500"
                     >
-                        <Script
-                            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-                            strategy="afterInteractive"
-                        />
+                        {loadCaptchaScript && (
+                            <Script
+                                src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                                strategy="afterInteractive"
+                            />
+                        )}
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             {/* Name */}

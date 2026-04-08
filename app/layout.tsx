@@ -17,14 +17,14 @@ import "./globals.css";
 const playfairDisplay = Playfair_Display({
     variable: "--font-playfair",
     subsets: ["latin"],
-    weight: ["400", "600", "700", "900"],
+    weight: ["700", "900"],
     display: "swap",
 });
 
 const lora = Lora({
     variable: "--font-body",
     subsets: ["latin"],
-    weight: ["400", "500", "600", "700"],
+    weight: ["400", "600"],
     display: "swap",
 });
 

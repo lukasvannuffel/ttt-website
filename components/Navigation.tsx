@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { INSTAGRAM_URL, NAV_LINKS, NAV_COLLAPSE_SCROLL_MIN, SCROLL_THRESHOLD } from "@/constants/config";
 
@@ -65,6 +65,7 @@ export function Navigation() {
     // Refs to avoid stale closures inside scroll handler
     const lastScrollYRef = useRef(0);
     const isDownRef = useRef(false);
+    const rafRef = useRef<number | null>(null);
 
     // Focus management: restore focus to hamburger when menu closes
     const hamburgerRef = useRef<HTMLButtonElement>(null);
@@ -78,11 +79,11 @@ export function Navigation() {
     }, [isMenuOpen]);
 
     useEffect(() => {
-        function handleScroll() {
+        function applyScrollState() {
             const y = window.scrollY;
             const isMobileWidth = window.innerWidth < 768;
-
-            setIsScrolled(y > SCROLL_THRESHOLD);
+            const hasScrolled = y > SCROLL_THRESHOLD;
+            setIsScrolled((current) => (current === hasScrolled ? current : hasScrolled));
 
             if (!isMobileWidth) {
                 if (isDownRef.current) {
@@ -105,9 +106,27 @@ export function Navigation() {
             lastScrollYRef.current = y;
         }
 
+        function handleScroll() {
+            if (rafRef.current !== null) {
+                return;
+            }
+
+            rafRef.current = requestAnimationFrame(() => {
+                applyScrollState();
+                rafRef.current = null;
+            });
+        }
+
+        applyScrollState();
         window.addEventListener("scroll", handleScroll, { passive: true });
 
-        return () => window.removeEventListener("scroll", handleScroll);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+
+            if (rafRef.current !== null) {
+                cancelAnimationFrame(rafRef.current);
+            }
+        };
     }, []);
 
     // Lock body scroll while menu is open
@@ -198,7 +217,7 @@ export function Navigation() {
             >
                 <nav
                     aria-label="Hoofdnavigatie"
-                    className={`flex items-center overflow-hidden border border-[var(--border)]/40 backdrop-blur-2xl md:gap-12 md:rounded-xl md:bg-white/35 md:px-6 md:py-3.5 md:shadow-[0_8px_32px_rgba(45,80,68,0.08)] ${
+                    className={`flex items-center overflow-hidden border border-[var(--border)]/40 backdrop-blur-md md:gap-12 md:rounded-xl md:bg-white/35 md:px-6 md:py-3.5 md:backdrop-blur-2xl md:shadow-[0_8px_32px_rgba(45,80,68,0.08)] ${
                         isNavCollapsed
                             ? "justify-center rounded-xl bg-white/60 shadow-[0_8px_32px_rgba(45,80,68,0.12)]"
                             : "gap-4 rounded-2xl bg-white/40 px-4 py-3 shadow-lg shadow-[var(--accent-primary)]/5"
@@ -269,7 +288,7 @@ export function Navigation() {
                 role="dialog"
                 aria-modal="true"
                 aria-label="Navigatiemenu"
-                className={`fixed inset-0 z-[999] bg-[var(--surface)]/50 backdrop-blur-xl transition-opacity duration-300 md:hidden ${
+                className={`fixed inset-0 z-[999] bg-[var(--surface)]/65 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
                     isMenuOpen ? "opacity-100" : "pointer-events-none opacity-0"
                 }`}
             >

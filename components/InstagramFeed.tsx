@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { BEHOLD_FEED_ID, INSTAGRAM_HANDLE, INSTAGRAM_URL } from "@/constants/config";
 import { InstagramIcon } from "@/components/icons/InstagramIcon";
@@ -22,10 +22,38 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export function InstagramFeed() {
     const sectionRef = useScrollReveal<HTMLElement>(0.15);
+    const widgetContainerRef = useRef<HTMLDivElement>(null);
     const scriptLoaded = useRef(false);
+    const [shouldLoadWidget, setShouldLoadWidget] = useState(false);
 
     useEffect(() => {
-        if (!BEHOLD_FEED_ID || scriptLoaded.current) {
+        if (!BEHOLD_FEED_ID || !widgetContainerRef.current) {
+            return;
+        }
+
+        const target = widgetContainerRef.current;
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting || shouldLoadWidget) {
+                    return;
+                }
+
+                setShouldLoadWidget(true);
+                observer.disconnect();
+            },
+            {
+                rootMargin: "300px 0px",
+                threshold: 0.01,
+            },
+        );
+
+        observer.observe(target);
+
+        return () => observer.disconnect();
+    }, [shouldLoadWidget]);
+
+    useEffect(() => {
+        if (!BEHOLD_FEED_ID || !shouldLoadWidget || scriptLoaded.current) {
             return;
         }
 
@@ -41,7 +69,7 @@ export function InstagramFeed() {
             script.remove();
             scriptLoaded.current = false;
         };
-    }, []);
+    }, [shouldLoadWidget]);
 
     return (
         <section
@@ -73,15 +101,16 @@ export function InstagramFeed() {
                 </div>
 
                 {/* Instagram Feed */}
-                <div className="w-full">
-                    {BEHOLD_FEED_ID ? (
+                <div className="w-full" ref={widgetContainerRef}>
+                    {BEHOLD_FEED_ID && shouldLoadWidget ? (
                         <div
+                            className="min-h-[420px]"
                             dangerouslySetInnerHTML={{
                                 __html: `<behold-widget feed-id="${BEHOLD_FEED_ID}"></behold-widget>`,
                             }}
                         />
                     ) : (
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                        <div className="grid min-h-[420px] grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
                             {Array.from({ length: 6 }).map((_, i) => (
                                 <a
                                     key={i}

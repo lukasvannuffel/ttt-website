@@ -1,14 +1,7 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 
-import { useScrollReveal } from "@/hooks/useScrollReveal";
-
 export function OverOns() {
-    const imageRef = useScrollReveal<HTMLDivElement>(0.2, "left");
-    const contentRef = useScrollReveal<HTMLDivElement>(0.2, "right");
-
     return (
         <section
             id="over"
@@ -24,8 +17,7 @@ export function OverOns() {
                 <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20 lg:items-center">
                     {/* Image — top on mobile */}
                     <div
-                        ref={imageRef}
-                        className="opacity-0 flex w-full justify-center items-center order-[-1] mb-6 lg:order-none lg:mb-0"
+                        className="flex w-full justify-center items-center order-[-1] mb-6 lg:order-none lg:mb-0"
                     >
                         <div className="relative aspect-[4/5] w-[280px] md:w-[350px] lg:w-[420px] overflow-hidden group">
                             {/* Organic frame background */}
@@ -45,7 +37,7 @@ export function OverOns() {
                         </div>
                     </div>
 
-                    <div ref={contentRef} className="opacity-0 flex flex-col justify-center">
+                    <div className="flex flex-col justify-center">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[var(--accent-tertiary)] to-[var(--accent-secondary)] opacity-70" aria-hidden="true" />
                             <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--accent-primary)]">
