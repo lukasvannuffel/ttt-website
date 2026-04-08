@@ -77,11 +77,11 @@ export function Hero() {
     return (
         <section
             id="home"
-            className="relative grid grid-cols-1 grid-rows-[52vh_auto] h-[100svh] lg:h-auto lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1"
+            className="relative grid min-h-screen grid-cols-1 grid-rows-[52vh_auto] overflow-visible min-[320px]:min-h-[100dvh] lg:h-auto lg:min-h-screen lg:grid-cols-2 lg:grid-rows-1"
         >
             <div className="order-1 h-[52vh] lg:hidden" aria-hidden="true" />
 
-            <div className="order-2 -mt-1 relative z-20 flex flex-col justify-center overflow-hidden bg-[var(--bg-primary)] px-8 pb-20 pt-8 md:mt-0 md:px-16 md:pt-[140px] lg:order-1 lg:bg-gradient-to-b lg:from-[var(--bg-primary)] lg:via-[var(--bg-primary)] lg:to-[rgba(160,210,180,0.08)] lg:pt-[160px] lg:pl-[120px] lg:pr-20">
+            <div className="order-2 relative z-20 -mt-1 flex flex-col justify-start overflow-visible bg-[var(--bg-primary)] px-8 pb-20 pt-10 md:mt-0 md:px-16 md:pt-[140px] lg:order-1 lg:justify-center lg:overflow-hidden lg:bg-gradient-to-b lg:from-[var(--bg-primary)] lg:via-[var(--bg-primary)] lg:to-[rgba(160,210,180,0.08)] lg:pt-[160px] lg:pl-[120px] lg:pr-20">
                 {/* Organic background accent */}
                 <div
                     className="absolute -right-40 top-0 w-96 h-96 rounded-full bg-gradient-to-br from-[var(--accent-tertiary)] to-transparent opacity-5 blur-3xl pointer-events-none"
@@ -100,11 +100,11 @@ export function Hero() {
                     <p className="hero-cta mb-12 max-w-[500px] text-base leading-relaxed text-[var(--text-secondary)] font-light">
                         Professionele boomverzorging in Vlaams-Brabant. Veilig, vakkundig en duurzaam werk met passie voor elke boom.
                     </p>
-                    <div className="hero-cta flex gap-4">
-                        <Link href="#diensten" className="btn btn-primary glow-on-hover">
+                    <div className="hero-cta flex flex-col gap-4 sm:flex-row">
+                        <Link href="#diensten" className="btn btn-primary glow-on-hover w-full sm:w-auto">
                             Diensten
                         </Link>
-                        <Link href="#contact" className="btn btn-secondary glow-on-hover">
+                        <Link href="#contact" className="btn btn-secondary glow-on-hover w-full sm:w-auto">
                             Contact me
                         </Link>
                     </div>
