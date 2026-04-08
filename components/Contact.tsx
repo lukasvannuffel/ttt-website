@@ -1,5 +1,6 @@
 "use client";
 
+import Script from "next/script";
 import { useState } from "react";
 
 import { MESSAGE_MAX_LENGTH, PHONE_NUMBER, SUBMIT_SUCCESS_TIMEOUT_MS } from "@/constants/config";
@@ -31,6 +32,15 @@ const INITIAL_FORM_DATA: FormData = {
 };
 
 const INPUT_CLASSES = "w-full px-4 py-3 bg-white border-2 border-[rgba(184,149,106,0.3)] rounded-lg text-[var(--text-primary)] placeholder-[rgba(75,85,99,0.5)] focus:outline-none focus:border-[var(--accent-gold)] focus:shadow-lg focus:shadow-[rgba(184,149,106,0.2)] transition-all duration-300";
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
+
+declare global {
+    interface Window {
+        turnstile?: {
+            reset: () => void;
+        };
+    }
+}
 
 export function Contact() {
     const contactRef = useScrollReveal<HTMLElement>(0.2);
@@ -39,6 +49,7 @@ export function Contact() {
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [submitError, setSubmitError] = useState("");
+    const isCaptchaConfigured = TURNSTILE_SITE_KEY.length > 0;
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
         const { name, value } = e.target;
@@ -49,13 +60,34 @@ export function Contact() {
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setSubmitError("");
+
+        if (!isCaptchaConfigured) {
+            setSubmitError("Contactformulier is tijdelijk niet beschikbaar. Probeer later opnieuw.");
+
+            return;
+        }
+
+        const formElement = e.currentTarget;
+        const form = new FormData(formElement);
+        const captchaTokenValue = form.get("cf-turnstile-response");
+        const captchaToken = typeof captchaTokenValue === "string" ? captchaTokenValue.trim() : "";
+
+        if (!captchaToken) {
+            setSubmitError("Bevestig dat je geen robot bent.");
+
+            return;
+        }
+
         setLoading(true);
 
         try {
             const response = await fetch("/api/contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    ...formData,
+                    captchaToken,
+                }),
             });
 
             if (!response.ok) {
@@ -64,6 +96,7 @@ export function Contact() {
 
             setSubmitted(true);
             setFormData(INITIAL_FORM_DATA);
+            window.turnstile?.reset();
 
             setTimeout(() => setSubmitted(false), SUBMIT_SUCCESS_TIMEOUT_MS);
         } catch {
@@ -125,6 +158,11 @@ export function Contact() {
                         aria-label="Contactformulier"
                         className="relative bg-white/70 backdrop-blur-sm border border-[rgba(184,149,106,0.2)] rounded-2xl p-8 md:p-12 shadow-lg hover:shadow-xl transition-shadow duration-500"
                     >
+                        <Script
+                            src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                            strategy="afterInteractive"
+                        />
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             {/* Name */}
                             <div className="form-group">
@@ -238,15 +276,25 @@ export function Contact() {
                                 onChange={handleChange}
                                 placeholder="Vertel ons meer over jouw project..."
                                 maxLength={MESSAGE_MAX_LENGTH}
+                                required
                                 rows={5}
                                 className={`${INPUT_CLASSES} resize-none`}
                             />
                         </div>
 
+                        {isCaptchaConfigured && (
+                            <div className="mb-6">
+                                <div
+                                    className="cf-turnstile"
+                                    data-sitekey={TURNSTILE_SITE_KEY}
+                                />
+                            </div>
+                        )}
+
                         {/* Submit */}
                         <button
                             type="submit"
-                            disabled={loading || submitted}
+                            disabled={loading || submitted || !isCaptchaConfigured}
                             aria-busy={loading}
                             className="w-full md:w-auto btn btn-primary glow-on-hover disabled:opacity-70 disabled:cursor-not-allowed relative overflow-hidden"
                         >
@@ -284,6 +332,15 @@ export function Contact() {
                                 className="mt-6 rounded-lg border border-red-300 bg-red-50 p-4 text-sm text-red-700"
                             >
                                 {submitError}
+                            </div>
+                        )}
+                        {!isCaptchaConfigured && (
+                            <div
+                                role="alert"
+                                aria-live="assertive"
+                                className="mt-6 rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800"
+                            >
+                                CAPTCHA configuratie ontbreekt. Voeg `NEXT_PUBLIC_TURNSTILE_SITE_KEY` toe.
                             </div>
                         )}
                     </form>

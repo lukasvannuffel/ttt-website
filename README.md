@@ -16,16 +16,19 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Contact Form (Gmail SMTP)
+## Contact Form Configuration
 
-To send real emails from the contact form:
+To send real emails with spam protection, create a `.env.local` file with:
 
-1. Enable 2-Step Verification on your Gmail account.
-2. Create a Gmail App Password.
-3. Copy `.env.example` to `.env.local`.
-4. Fill in the SMTP values in `.env.local`.
+```bash
+RESEND_API_KEY=your_resend_api_key
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_turnstile_site_key
+TURNSTILE_SECRET_KEY=your_turnstile_secret_key
+```
 
-The form posts to `POST /api/contact` and sends emails using Nodemailer.
+The form posts to `POST /api/contact`, validates the Turnstile token server-side, and sends emails using Resend.
+
+Never commit secrets to git. Keep all API keys in local or platform environment variables only.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
