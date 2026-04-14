@@ -5,7 +5,7 @@ export const EMAIL_ADDRESS = "info@treetoptom.be";
 export const EMAIL_URL = `mailto:${EMAIL_ADDRESS}`;
 
 /** Site URLs */
-export const SITE_URL = "https://www.treetoptom.be";
+export const SITE_URL = "https://treetoptom.be";
 
 /** Social media */
 export const INSTAGRAM_HANDLE = "_tree_top_tom_";
