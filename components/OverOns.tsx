@@ -50,7 +50,7 @@ export function OverOns() {
 
                         <div className="max-w-2xl space-y-7">
                             <p className="text-sm leading-relaxed text-[var(--text-secondary)] md:text-[15px]">
-                                Ik ben Tom Vannotten, en bomen zijn al jaren mijn grootste passie. Wat begon in de
+                                Ik ben Tom Vannotten, en bomen zijn al jaren mijn grootste passie. <br /> Wat begon in de
                                 tuinbouw groeide na een demo boomverzorging uit tot een duidelijke roeping. Met mijn
                                 ETW-opleiding en praktijkervaring help ik klanten vandaag met professionele, veilige
                                 boomzorg.
