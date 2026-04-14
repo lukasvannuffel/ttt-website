@@ -40,16 +40,29 @@ export const metadata: Metadata = {
         template: "%s | Tree Top Tom",
     },
     description: SITE_DESCRIPTION,
+    manifest: "/site.webmanifest",
     icons: {
         icon: [
+            {
+                type: "image/png",
+                sizes: "96x96",
+                url: "/favicon-96x96.png",
+            },
+            {
+                type: "image/svg+xml",
+                url: "/favicon.svg",
+            },
             {
                 type: "image/png",
                 sizes: "32x32",
                 url: "/favicon-32x32.png",
             },
         ],
-        shortcut: "/favicon-32x32.png",
+        shortcut: "/favicon.ico",
         apple: "/apple-touch-icon.png",
+    },
+    appleWebApp: {
+        title: "TreeTopTom",
     },
     keywords: [
         "boomverzorging",

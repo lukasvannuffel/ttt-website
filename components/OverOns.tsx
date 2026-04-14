@@ -63,11 +63,11 @@ export function OverOns() {
                                 />
                                 <ol className="space-y-3">
                                     {[
-                                        "Aangetrokken tot natuur",
-                                        "Opleiding tuinbouw",
-                                        "Demo boomverzorging als kantelpunt",
-                                        "ETW-opleiding succesvol afgerond",
-                                        "Zelfstandig in bijberoep",
+                                        "Ik voelde me aangetrokken tot natuur",
+                                        "Ik volgde een opleiding tuinbouw",
+                                        "Ik deed een demo boomverzorging",
+                                        "Ik volgde een ETW-opleiding",
+                                        "Ik ben zelfstandig in bijberoep",
                                     ].map((step, index) => (
                                         <li key={step} className="relative">
                                             <div className="flex items-start gap-3 rounded-2xl border border-[var(--border)]/40 bg-white/70 px-3.5 py-3.5 shadow-[0_8px_24px_rgba(27,67,50,0.08)] backdrop-blur-sm transition-all duration-300 hover:border-[var(--accent-tertiary)]/40 hover:shadow-[0_12px_28px_rgba(27,67,50,0.12)] sm:px-4">
