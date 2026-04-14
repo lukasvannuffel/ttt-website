@@ -104,7 +104,7 @@ export function InstagramFeed() {
                 <div className="w-full" ref={widgetContainerRef}>
                     {BEHOLD_FEED_ID && shouldLoadWidget ? (
                         <div
-                            className="min-h-[420px]"
+                            className="[&>behold-widget]:m-0 [&>behold-widget]:block [&>behold-widget]:w-full"
                             dangerouslySetInnerHTML={{
                                 __html: `<behold-widget feed-id="${BEHOLD_FEED_ID}"></behold-widget>`,
                             }}
@@ -136,7 +136,7 @@ export function InstagramFeed() {
                 </div>
 
                 {/* CTA */}
-                <div className="text-center mt-12 md:mt-16">
+                <div className="text-center mt-12 md:mt-24">
                     <a
                         href={INSTAGRAM_URL}
                         target="_blank"

@@ -44,24 +44,57 @@ export function OverOns() {
                                 Over mij
                             </p>
                         </div>
-                        <h2 className="mb-10 font-serif text-3xl font-bold leading-tight text-[var(--text-primary)] md:text-4xl lg:text-5xl">
+                        <h2 className="mb-8 font-serif text-3xl font-bold leading-tight text-[var(--text-primary)] md:mb-10 md:text-4xl lg:text-5xl">
                             Met passie voor vakwerk
                         </h2>
 
                         <div className="max-w-2xl space-y-7">
-                            <p className="text-[var(--text-secondary)] leading-relaxed text-[15px] relative pl-6">
-                                <span className="absolute -left-3 top-1 text-[var(--accent-tertiary)] text-2xl opacity-30" aria-hidden="true">🌿</span>
-                                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque nobis deleniti dignissimos! Beatae, sunt cumque?
+                            <p className="text-sm leading-relaxed text-[var(--text-secondary)] md:text-[15px]">
+                                Ik ben Tom Vannotten, en bomen zijn al jaren mijn grootste passie. Wat begon in de
+                                tuinbouw groeide na een demo boomverzorging uit tot een duidelijke roeping. Met mijn
+                                ETW-opleiding en praktijkervaring help ik klanten vandaag met professionele, veilige
+                                boomzorg.
                             </p>
-                            <p className="text-[var(--text-secondary)] leading-relaxed text-[15px] relative pl-6">
-                                <span className="absolute -left-3 top-1 text-[var(--accent-tertiary)] text-2xl opacity-30" aria-hidden="true">🌱</span>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores saepe sequi itaque autem error? Ex, voluptas quibusdam.
+
+                            <div className="relative">
+                                <div
+                                    className="pointer-events-none absolute bottom-5 left-[14px] top-5 w-px bg-gradient-to-b from-[var(--accent-tertiary)]/40 via-[var(--accent-tertiary)]/20 to-transparent"
+                                    aria-hidden="true"
+                                />
+                                <ol className="space-y-3">
+                                    {[
+                                        "Aangetrokken tot natuur",
+                                        "Opleiding tuinbouw",
+                                        "Demo boomverzorging als kantelpunt",
+                                        "ETW-opleiding succesvol afgerond",
+                                        "Zelfstandig in bijberoep",
+                                    ].map((step, index) => (
+                                        <li key={step} className="relative">
+                                            <div className="flex items-start gap-3 rounded-2xl border border-[var(--border)]/40 bg-white/70 px-3.5 py-3.5 shadow-[0_8px_24px_rgba(27,67,50,0.08)] backdrop-blur-sm transition-all duration-300 hover:border-[var(--accent-tertiary)]/40 hover:shadow-[0_12px_28px_rgba(27,67,50,0.12)] sm:px-4">
+                                                <span
+                                                    className="relative z-10 mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[var(--accent-tertiary)]/20 text-[10px] font-bold text-[var(--accent-primary)]"
+                                                    aria-hidden="true"
+                                                >
+                                                    {index + 1}
+                                                </span>
+                                                <span className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                                                    {step}
+                                                </span>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ol>
+                            </div>
+
+                            <p className="text-sm leading-relaxed text-[var(--text-secondary)] md:text-[15px]">
+                                Als zelfstandige in bijberoep sta ik klaar voor boomwerken en algemeen
+                                tuinonderhoud, altijd met oog voor veiligheid, kwaliteit en respect voor de natuur.
                             </p>
                         </div>
 
                         <Link
                             href="#contact"
-                            className="btn btn-primary mt-12 inline-flex min-h-[44px] items-center justify-center"
+                            className="btn btn-primary mt-7 inline-flex min-h-[44px] items-center justify-center"
                         >
                             Neem contact op
                         </Link>

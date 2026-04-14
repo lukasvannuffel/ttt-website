@@ -18,7 +18,7 @@ export const BEHOLD_FEED_ID = "FpvRdgx572FiW0fh5Bhe";
 export const NAV_LINKS = [
     { href: "#home", label: "Home", mobileLabel: "Home" },
     { href: "#diensten", label: "Diensten", mobileLabel: "Diensten" },
-    { href: "#over", label: "Over", mobileLabel: "Over ons" },
+    { href: "#over", label: "Over", mobileLabel: "Over mij" },
     { href: "#contact", label: "Contact", mobileLabel: "Contact" },
 ] as const;
 
