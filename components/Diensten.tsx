@@ -89,7 +89,7 @@ function ServiceCard({
             </div>
 
             <div className="flex min-h-0 flex-1 flex-col px-6 py-7 md:px-7 md:py-8">
-                <div className="min-h-[8rem] shrink-0">
+                <div className="flex min-h-0 flex-1 flex-col">
                     <div className="flex items-center gap-2 mb-3">
                         <span className="text-xs font-bold tracking-widest text-[var(--accent-primary)] opacity-60">
                             {String(index + 1).padStart(2, "0")}
@@ -99,7 +99,7 @@ function ServiceCard({
                     <h3 className="font-serif text-lg font-bold leading-tight text-[var(--text-primary)] md:text-xl group-hover:text-[var(--accent-primary)] transition-colors duration-400">
                         {dienst.title}
                     </h3>
-                    <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+                    <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)] md:line-clamp-3">
                         {dienst.description}
                     </p>
                 </div>
@@ -267,7 +267,7 @@ export function Diensten() {
 
                 <div className="flex w-full flex-col items-center">
                     <div
-                        className="relative h-[540px] w-full overflow-hidden touch-pan-y md:h-[520px]"
+                        className="relative h-[620px] w-full overflow-hidden touch-pan-y md:h-[520px]"
                         onTouchStart={handleTouchStart}
                         onTouchEnd={handleTouchEnd}
                     >
