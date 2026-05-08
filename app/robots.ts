@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { SITE_URL } from "@/constants/config";
+import { SITE_HOST, SITE_URL } from "@/constants/config";
 
 export default function robots(): MetadataRoute.Robots {
     return {
@@ -10,5 +10,6 @@ export default function robots(): MetadataRoute.Robots {
             disallow: "/api/",
         },
         sitemap: `${SITE_URL}/sitemap.xml`,
+        host: SITE_HOST,
     };
 }

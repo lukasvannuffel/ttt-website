@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next";
 
-import { SITE_URL } from "@/constants/config";
+import { SITE_LAST_MODIFIED, SITE_URL } from "@/constants/config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
             url: SITE_URL,
-            lastModified: new Date(),
+            lastModified: SITE_LAST_MODIFIED,
             changeFrequency: "monthly",
             priority: 1,
         },

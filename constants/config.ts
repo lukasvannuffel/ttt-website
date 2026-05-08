@@ -6,6 +6,25 @@ export const EMAIL_URL = `mailto:${EMAIL_ADDRESS}`;
 
 /** Site URLs */
 export const SITE_URL = "https://treetoptom.be";
+export const SITE_HOST = "treetoptom.be";
+
+/** Stable site-wide last-modified date for sitemap (bump on content updates, ISO 8601) */
+export const SITE_LAST_MODIFIED = "2026-05-08";
+
+/** Business identity — used by metadata, JSON-LD and structured data */
+export const BUSINESS_NAME = "Tree Top Tom";
+export const BUSINESS_ALTERNATE_NAME = "TreeTopTom";
+export const BUSINESS_LEGAL_NAME = "Tree Top Tom Boomverzorging";
+export const BUSINESS_FOUNDER_NAME = "Tom Vannotten";
+export const BUSINESS_FOUNDER_JOB_TITLE = "Boomverzorger (ETW)";
+export const BUSINESS_CITY = "Leuven";
+export const BUSINESS_POSTAL_CODE = "3000";
+export const BUSINESS_REGION = "Vlaams-Brabant";
+export const BUSINESS_COUNTRY = "BE";
+export const BUSINESS_PRICE_RANGE = "€€";
+export const BUSINESS_LATITUDE = 50.8798;
+export const BUSINESS_LONGITUDE = 4.7005;
+export const BUSINESS_LOCALE = "nl-BE";
 
 /** Social media */
 export const INSTAGRAM_HANDLE = "_tree_top_tom_";
