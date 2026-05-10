@@ -33,5 +33,12 @@
     "description": "Complete opruiming met hakselaar voor takken en stronkfrees voor het verwijderen van boomstronken.",
     "tags": ["Hakselaar", "Stronkfrees"],
     "image": "/img/HakselenFrezen.png"
+  },
+  {
+    "icon": "🏡",
+    "title": "Algemene Tuinwerken",
+    "description": "Van regelmatig onderhoud tot het aanpakken van specifieke tuinklussen: ik zorg dat uw tuin het hele jaar door in topconditie blijft.",
+    "tags": ["Onderhoud", "Vakkundig"],
+    "image": "/img/AlgemeneTuinwerken.png"
   }
 ]
